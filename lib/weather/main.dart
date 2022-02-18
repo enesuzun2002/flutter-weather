@@ -1,10 +1,10 @@
 class Main {
-  double? temp;
-  double? feelsLike;
-  double? tempMin;
-  double? tempMax;
-  int? pressure;
-  int? humidity;
+  var temp;
+  var feelsLike;
+  var tempMin;
+  var tempMax;
+  var pressure;
+  var humidity;
 
   Main(
       {this.temp,

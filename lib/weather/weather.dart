@@ -1,8 +1,8 @@
 class Weather {
-  int? id;
-  String? main;
-  String? description;
-  String? icon;
+  var id;
+  var main;
+  var description;
+  var icon;
 
   Weather({this.id, this.main, this.description, this.icon});
 

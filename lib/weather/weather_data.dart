@@ -6,19 +6,19 @@ import 'package:weather/weather/weather.dart';
 import 'package:weather/weather/wind.dart';
 
 class WeatherData {
-  Coord? coord;
-  List<Weather>? weather;
-  String? base;
-  Main? main;
-  int? visibility;
-  Wind? wind;
-  Clouds? clouds;
-  int? dt;
-  Sys? sys;
-  int? timezone;
-  int? id;
-  String? name;
-  int? cod;
+  var coord;
+  var weather;
+  var base;
+  var main;
+  var visibility;
+  var wind;
+  var clouds;
+  var dt;
+  var sys;
+  var timezone;
+  var id;
+  var name;
+  var cod;
 
   WeatherData(
       {this.coord,
