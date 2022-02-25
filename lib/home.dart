@@ -35,7 +35,9 @@ class Home extends StatelessWidget {
                     ],
                   );
                 }
-                return CustomWidgets.getLoadingAnim();
+                return Container(
+                  child: Center(child: CircularProgressIndicator()),
+                );
               },
             ),
           ),

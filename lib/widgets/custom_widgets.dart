@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animations/loading_animations.dart';
 import 'package:weather/weather/weather_data.dart';
 
 class CustomWidgets {
@@ -27,26 +26,6 @@ class CustomWidgets {
   static Icon buildNavIcon(IconData iconData, bool active) {
     return Icon(iconData,
         size: 20.0, color: Color(active ? 0xFF0001FC : 0xFF0A1034));
-  }
-
-  static Center getLoadingAnim() {
-    return Center(
-      child: Container(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          LoadingBouncingGrid.circle(
-            size: 60,
-            backgroundColor: Color(0xFF0001FC),
-          ),
-          Container(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: const Text(
-              'Fetching Weather Data',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ]),
-      ),
-    );
   }
 
   static Padding getHeader() {
