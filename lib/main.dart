@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:weather/about.dart';
+import 'package:flutter/services.dart';
 import 'package:weather/home.dart';
 import 'package:weather/search.dart';
+import 'package:weather/services/reload_weather_data.dart';
+import 'package:weather/settings.dart';
 import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/widgets/nav_drawer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,10 +13,11 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  static List<dynamic> weatherList = <dynamic>[];
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Weather',
       home: MyHomePage(),
@@ -32,9 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int pageIndex = 0;
 
   final pages = [
-    Home(),
+    const Home(),
     Search(),
-    const About(),
+    const Settings(),
   ];
 
   @override
@@ -45,7 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: getBottomNavBar(), body: pages[pageIndex]);
+        appBar: AppBar(
+          centerTitle: true,
+          title: CustomWidgets.getHeader(),
+        ),
+        drawer: NavDrawer(),
+        bottomNavigationBar: getBottomNavBar(),
+        body: pages[pageIndex]);
   }
 
   Container getBottomNavBar() {
@@ -88,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               icon: CustomWidgets.buildNavIcon(
-                  Icons.person, pageIndex == 2 ? true : false)),
+                  Icons.settings, pageIndex == 2 ? true : false)),
         ],
       ),
     );

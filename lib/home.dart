@@ -1,48 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:weather/search.dart';
-import 'package:weather/services/weather_api_client.dart';
-import 'package:weather/weather/weather_data.dart';
+import 'package:weather/main.dart';
+import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/widgets/get_weather.dart';
 
-class Home extends StatelessWidget {
-  Home({Key? key}) : super(key: key);
-
-  WeatherData weatherData = WeatherData();
-  WeatherApiClient client = WeatherApiClient();
-
-  Future<void> getData(String city) async {
-    weatherData = await client.getWeatherData(city);
-  }
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+  static bool reload = false;
 
   @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: FutureBuilder(
-              future: getData(Search.city),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      CustomWidgets.getHeader(),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
-                          child: CustomWidgets.getWeatherCard(weatherData)),
-                    ],
-                  );
-                }
-                return Container(
-                  child: Center(child: CircularProgressIndicator()),
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 18.0, left: 16.0, right: 16.0),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await refresh();
+            },
+            child: ListView.builder(
+              itemCount:
+                  MyApp.weatherList.isEmpty ? 1 : MyApp.weatherList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: MyApp.weatherList.isEmpty
+                      ? GetWeather()
+                      : CustomWidgets.getWeatherCard(
+                          MyApp.weatherList.elementAt(index)),
                 );
               },
             ),
+            triggerMode: RefreshIndicatorTriggerMode.anywhere,
           ),
-        ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (MyApp.weatherList.isNotEmpty) {
+            MyApp.weatherList.removeLast();
+            refresh();
+          }
+        },
+        child: Icon(Icons.remove_circle_rounded),
       ),
     );
+  }
+
+  Future<void> refresh() async {
+    await ReloadWeatherData.weatherDataReload();
+    setState(() {});
   }
 }

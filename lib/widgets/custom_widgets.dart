@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather/main.dart';
 import 'package:weather/weather/weather_data.dart';
 
 class CustomWidgets {
@@ -28,18 +29,16 @@ class CustomWidgets {
         size: 20.0, color: Color(active ? 0xFF0001FC : 0xFF0A1034));
   }
 
-  static Padding getHeader() {
-    return const Padding(
-      padding: EdgeInsets.only(top: 18.0),
-      child: Text(
-        " Hava Durumu",
-        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-      ),
+  static Text getHeader() {
+    return Text(
+      " Hava Durumu",
+      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
     );
   }
 
   static Container getWeatherCard(WeatherData weatherData) {
     return Container(
+      height: 150.0,
       width: double.infinity,
       decoration: BoxDecoration(
           color: CustomWidgets.getColor(weatherData),
@@ -51,16 +50,37 @@ class CustomWidgets {
     );
   }
 
+  static Container getProgressIndicatorCard() {
+    return Container(
+      height: 150.0,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 153, 65, 6),
+          borderRadius: BorderRadius.circular(16.0)),
+      child: Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  static String fixCityName(WeatherData weatherData) {
+    String name = "";
+    if (weatherData.name.toString().contains("Province")) {
+      name = weatherData.name.toString().split(" ").first;
+    } else {
+      name = weatherData.name.toString();
+    }
+    return name;
+  }
+
   static Row getWeatherCardInfo(WeatherData weatherData) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Column(
           children: [
             Text(
-              " ${weatherData.name!}, ${weatherData.sys.country!}",
+              " ${fixCityName(weatherData)}, ${weatherData.sys.country!}",
               style: const TextStyle(
-                  fontSize: 24.0,
+                  fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
@@ -69,7 +89,7 @@ class CustomWidgets {
               child: Text(
                 "${weatherData.main!.temp} C",
                 style: const TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
