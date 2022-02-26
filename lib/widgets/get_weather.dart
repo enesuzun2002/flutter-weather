@@ -13,9 +13,6 @@ class GetWeather extends StatelessWidget {
     weatherData = await client.getWeatherData(city);
     if (weatherData.cod == "404") {
       return MyApp.weatherList.last;
-    } else if (weatherData.cod == "429") {
-      print("API-Key blocked due to exceeding request limit!");
-      return null;
     } else {
       for (var element in MyApp.weatherList) {
         if (element.name == weatherData.name) {

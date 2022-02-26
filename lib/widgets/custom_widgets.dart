@@ -38,7 +38,7 @@ class CustomWidgets {
 
   static Container getWeatherCard(WeatherData weatherData) {
     return Container(
-      height: 150.0,
+      height: 179.0,
       width: double.infinity,
       decoration: BoxDecoration(
           color: CustomWidgets.getColor(weatherData),
@@ -71,34 +71,51 @@ class CustomWidgets {
     return name;
   }
 
-  static Row getWeatherCardInfo(WeatherData weatherData) {
+  static String getWeatherDescription(String weatherDesc) {
+    switch (weatherDesc) {
+      case "Clouds":
+        return "Bulutlu";
+      case "Thunderstorm":
+        return "Fırtına";
+      case "Drizzle":
+        return "Ahmak Islatan Yağmuru";
+      case "Rain":
+        return "Yağmur";
+      case "Snow":
+        return "Kar";
+      case "Atmosphere":
+        return "Atmosferik Olay (Eklenmedi)";
+      case "Clear":
+        return "Açık Hava";
+      default:
+        return "Bilinmeyen Durum";
+    }
+  }
+
+  static Column getWeatherCardInfo(WeatherData weatherData) {
     String name = fixCityName(weatherData);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Column(
+        Text(
+          " $name, ${weatherData.sys.country!}",
+          style: const TextStyle(
+              fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Image.network(
+                "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),
             Text(
-              " $name, ${weatherData.sys.country!}",
+              "${weatherData.main!.temp.floor()} C\n${getWeatherDescription(weatherData.weather[0].main)}",
               style: const TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: Text(
-                "${weatherData.main!.temp} C",
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-            ),
           ],
         ),
-        Image.network(
-            "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),
       ],
     );
   }

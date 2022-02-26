@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
           centerTitle: true,
           title: CustomWidgets.getHeader(),
         ),
-        drawer: const NavDrawer(),
+        // drawer: const NavDrawer(),
         bottomNavigationBar: getBottomNavBar(),
         body: pages[pageIndex]);
   }
@@ -61,12 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       width: double.infinity,
       decoration: BoxDecoration(
-          /* boxShadow: [
-                BoxShadow(
-                    offset: Offset(0, -2),
-                    color: Colors.black.withOpacity(0.25),
-                    blurRadius: 10.0)
-              ], */
           borderRadius: BorderRadius.circular(16.0),
           color: const Color.fromARGB(255, 215, 232, 250)),
       child: Row(

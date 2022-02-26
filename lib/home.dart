@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: MyApp.weatherList.isEmpty
-                    ? GetWeather()
+                    ? const GetWeather()
                     : CustomWidgets.getWeatherCard(
                         MyApp.weatherList.elementAt(index)),
               );
@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
             refresh();
           }
         },
-        child: Icon(Icons.remove_circle_rounded),
+        child: const Icon(Icons.remove_circle_rounded),
       ),
     );
   }

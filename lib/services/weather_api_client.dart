@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:weather/weather/weather_data.dart';
 import 'package:weather/api_key/api_key.dart';

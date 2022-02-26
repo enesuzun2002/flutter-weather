@@ -25,7 +25,7 @@ class _SearchState extends State<Search> {
             children: [
               TextField(
                 decoration: const InputDecoration(
-                  hintText: "City name...",
+                  hintText: "Şehir Adı...",
                   icon: Icon(Icons.search),
                 ),
                 controller: textEditingController,
