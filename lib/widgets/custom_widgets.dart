@@ -30,7 +30,7 @@ class CustomWidgets {
   }
 
   static Text getHeader() {
-    return Text(
+    return const Text(
       " Hava Durumu",
       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
     );
@@ -57,7 +57,7 @@ class CustomWidgets {
       decoration: BoxDecoration(
           color: const Color.fromARGB(255, 153, 65, 6),
           borderRadius: BorderRadius.circular(16.0)),
-      child: Center(child: CircularProgressIndicator()),
+      child: const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -72,13 +72,14 @@ class CustomWidgets {
   }
 
   static Row getWeatherCardInfo(WeatherData weatherData) {
+    String name = fixCityName(weatherData);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Column(
           children: [
             Text(
-              " ${fixCityName(weatherData)}, ${weatherData.sys.country!}",
+              " $name, ${weatherData.sys.country!}",
               style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -100,5 +101,13 @@ class CustomWidgets {
             "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),
       ],
     );
+  }
+
+  static List<String> weatherListCityNamesToList(List<dynamic> weatherList) {
+    List<String> cities = <String>[];
+    for (var element in MyApp.weatherList) {
+      cities.add(element.name);
+    }
+    return cities;
   }
 }

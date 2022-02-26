@@ -10,7 +10,7 @@ Weather app written with Flutter using OpenWeatherMap's API.
 
 ```
 class ApiKey {
-  static const String api_key = 'YOUR_API_KEY';
+  static const String apiKey = 'YOUR_API_KEY';
 }
 ```
 

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:weather/home.dart';
 import 'package:weather/search.dart';
-import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/settings.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:weather/widgets/nav_drawer.dart';
@@ -37,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final pages = [
     const Home(),
-    Search(),
+    const Search(),
     const Settings(),
   ];
 
@@ -53,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
           centerTitle: true,
           title: CustomWidgets.getHeader(),
         ),
-        drawer: NavDrawer(),
+        drawer: const NavDrawer(),
         bottomNavigationBar: getBottomNavBar(),
         body: pages[pageIndex]);
   }

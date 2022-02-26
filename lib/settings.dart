@@ -5,6 +5,6 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Stack(children: []));
+    return SafeArea(child: Stack(children: const []));
   }
 }
