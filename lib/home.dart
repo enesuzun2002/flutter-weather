@@ -16,17 +16,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool reload = false;
+  bool firstTime = true;
 
   @override
   void initState() {
     ReloadWeatherData.weatherDataReloadSharedPrefs();
-    // Call this timer here to make sure that user won't have to wait more than 60 secs when user refreshes.
-    if (!reload) {
-      Timer(const Duration(seconds: 60), () {
-        print("You can reload now!");
-        reload = true;
-      });
-    }
     super.initState();
   }
 
@@ -43,11 +37,12 @@ class _HomeState extends State<Home> {
                 reload = true;
               });
             }
-            if (reload) {
+            if (reload || firstTime) {
               await refresh();
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("Weather data successfully reloaded!")));
               reload = false;
+              firstTime = false;
               // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
               // Also add a guard so this only works if reload is false.
               if (!reload) {
