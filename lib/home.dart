@@ -30,14 +30,26 @@ class _HomeState extends State<Home> {
         padding: const EdgeInsets.only(top: 18.0, left: 16.0, right: 16.0),
         child: RefreshIndicator(
           onRefresh: () async {
-            Timer(const Duration(seconds: 60), () {
-              print("You can reload now!");
-              reload = true;
-            });
+            if (!reload) {
+              Timer(const Duration(seconds: 60), () {
+                print("You can reload now!");
+                reload = true;
+              });
+            }
             if (reload) {
               await refresh();
               reload = false;
+              // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
+              // Also add a guard so this only works if reload is false.
+              if (!reload) {
+                Timer(const Duration(seconds: 60), () {
+                  print("You can reload again!");
+                  reload = true;
+                });
+              }
             } else {
+              print(
+                  "Refresh called at ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second} but it failed...");
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text(
                       "You have to wait atleast 60 seconds before reloading!")));
@@ -64,7 +76,6 @@ class _HomeState extends State<Home> {
             MyApp.weatherList.removeLast();
             WeatherSharedPrefs.updateCities(
                 CustomWidgets.weatherListCityNamesToList(MyApp.weatherList));
-            Timer(const Duration(seconds: 60), () => reload = true);
             await refresh();
           }
         },
