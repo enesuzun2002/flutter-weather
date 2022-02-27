@@ -62,7 +62,6 @@ class _HomeState extends State<Home> {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text(
                       "You have to wait atleast 60 seconds before reloading!")));
-              setState(() {});
             }
           },
           child: ListView.builder(
