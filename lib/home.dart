@@ -38,6 +38,8 @@ class _HomeState extends State<Home> {
             }
             if (reload) {
               await refresh();
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Weather data successfully reloaded!")));
               reload = false;
               // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
               // Also add a guard so this only works if reload is false.
