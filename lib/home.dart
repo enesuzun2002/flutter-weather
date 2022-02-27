@@ -20,6 +20,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     ReloadWeatherData.weatherDataReloadSharedPrefs();
+    // Call this timer here to make sure that user won't have to wait more than 60 secs when user refreshes.
+    if (!reload) {
+      Timer(const Duration(seconds: 60), () {
+        print("You can reload now!");
+        reload = true;
+      });
+    }
     super.initState();
   }
 
