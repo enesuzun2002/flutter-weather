@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
@@ -7,13 +9,14 @@ import 'package:weather/widgets/get_weather.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-  static bool reload = false;
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  bool reload = false;
+
   @override
   void initState() {
     ReloadWeatherData.weatherDataReloadSharedPrefs();
@@ -27,7 +30,18 @@ class _HomeState extends State<Home> {
         padding: const EdgeInsets.only(top: 18.0, left: 16.0, right: 16.0),
         child: RefreshIndicator(
           onRefresh: () async {
-            await refresh();
+            Timer(const Duration(seconds: 60), () {
+              print("You can reload now!");
+              reload = true;
+            });
+            if (reload) {
+              await refresh();
+              reload = false;
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text(
+                      "You have to wait atleast 60 seconds before reloading!")));
+            }
           },
           child: ListView.builder(
             itemCount: MyApp.weatherList.isEmpty ? 1 : MyApp.weatherList.length,
@@ -45,12 +59,13 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           if (MyApp.weatherList.isNotEmpty) {
             MyApp.weatherList.removeLast();
             WeatherSharedPrefs.updateCities(
                 CustomWidgets.weatherListCityNamesToList(MyApp.weatherList));
-            refresh();
+            Timer(const Duration(seconds: 60), () => reload = true);
+            await refresh();
           }
         },
         child: const Icon(Icons.remove_circle_rounded),
