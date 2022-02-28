@@ -29,11 +29,13 @@ class CustomWidgets {
         size: 20.0, color: Color(active ? 0xFF0001FC : 0xFF0A1034));
   }
 
-  static Text getHeader() {
-    return const Text(
-      " Hava Durumu",
-      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-    );
+  static AppBar getAppBar(String header) {
+    return AppBar(
+        centerTitle: true,
+        title: Text(
+          header,
+          style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        ));
   }
 
   static Container getWeatherCard(WeatherData weatherData) {
@@ -127,4 +129,7 @@ class CustomWidgets {
     }
     return cities;
   }
+
+  static final RegExp emailRegex = new RegExp(
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
 }

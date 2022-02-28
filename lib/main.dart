@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:weather/home.dart';
-import 'package:weather/search.dart';
-import 'package:weather/settings.dart';
+import 'package:weather/pages/account.dart';
+import 'package:weather/pages/home.dart';
+import 'package:weather/pages/search.dart';
+import 'package:weather/pages/settings.dart';
 import 'package:weather/widgets/custom_widgets.dart';
-import 'package:weather/widgets/nav_drawer.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   static List<dynamic> weatherList = <dynamic>[];
   static bool reload = false;
-  static bool firstTime = true;
+  static bool isRunning = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +36,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int pageIndex = 0;
+  int pageIndex = 3;
 
   final pages = [
     const Home(),
-    const Search(),
+    Search(),
     const Settings(),
+    const Account(),
   ];
 
   @override
@@ -49,13 +53,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: CustomWidgets.getHeader(),
-        ),
-        // drawer: const NavDrawer(),
-        bottomNavigationBar: getBottomNavBar(),
-        body: pages[pageIndex]);
+      // drawer: const NavDrawer(),
+      body: pages[pageIndex],
+      bottomNavigationBar: getBottomNavBar(),
+    );
   }
 
   Container getBottomNavBar() {
@@ -93,6 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               icon: CustomWidgets.buildNavIcon(
                   Icons.settings, pageIndex == 2 ? true : false)),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  pageIndex = 3;
+                });
+              },
+              icon: CustomWidgets.buildNavIcon(
+                  Icons.person, pageIndex == 3 ? true : false)),
         ],
       ),
     );
