@@ -15,9 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool reload = false;
-  bool firstTime = true;
-
   @override
   void initState() {
     ReloadWeatherData.weatherDataReloadSharedPrefs();
@@ -31,24 +28,24 @@ class _HomeState extends State<Home> {
         padding: const EdgeInsets.only(top: 18.0, left: 16.0, right: 16.0),
         child: RefreshIndicator(
           onRefresh: () async {
-            if (!reload) {
-              Timer(const Duration(seconds: 60), () {
+            if (!MyApp.reload) {
+              Timer(const Duration(minutes: 3), () {
                 print("You can reload now!");
-                reload = true;
+                MyApp.reload = true;
               });
             }
-            if (reload || firstTime) {
+            if (MyApp.reload || MyApp.firstTime) {
               await refresh();
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("Weather data successfully reloaded!")));
-              reload = false;
-              firstTime = false;
+              MyApp.reload = false;
+              MyApp.firstTime = false;
               // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
               // Also add a guard so this only works if reload is false.
-              if (!reload) {
-                Timer(const Duration(seconds: 60), () {
+              if (!MyApp.reload) {
+                Timer(const Duration(minutes: 3), () {
                   print("You can reload again!");
-                  reload = true;
+                  MyApp.reload = true;
                 });
               }
             } else {
@@ -56,7 +53,7 @@ class _HomeState extends State<Home> {
                   "Refresh called at ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second} but it failed...");
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text(
-                      "You have to wait atleast 60 seconds before reloading!")));
+                      "You have to wait atleast 3 minutes before reloading!")));
             }
           },
           child: ListView.builder(

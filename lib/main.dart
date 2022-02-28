@@ -12,6 +12,8 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   static List<dynamic> weatherList = <dynamic>[];
+  static bool reload = false;
+  static bool firstTime = true;
 
   @override
   Widget build(BuildContext context) {
