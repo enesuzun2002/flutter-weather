@@ -50,3 +50,6 @@ lib/api_key/api_key.dart
 
 # Firebase Config
 *google-services.json
+
+# Singature
+/android/key.properties
