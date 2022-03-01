@@ -53,9 +53,15 @@ class _HomeState extends State<Home> {
           } else {
             print(
                 "Refresh called at ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second} but it failed...");
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text(
-                    "You have to wait atleast 3 minutes before reloading!")));
+            if (!MyApp.isShown) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text(
+                      "You have to wait atleast 3 minutes before reloading!")));
+              MyApp.isShown = true;
+              Timer(const Duration(seconds: 30), () {
+                MyApp.isShown = false;
+              });
+            }
             setState(() {});
           }
         },

@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   static List<dynamic> weatherList = <dynamic>[];
   static bool reload = false;
   static bool isRunning = false;
+  static bool isShown = false;
 
   @override
   Widget build(BuildContext context) {
