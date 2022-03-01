@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
   static bool reload = false;
   static bool isRunning = false;
   static bool isShown = false;
+  static int selectedDestination = 0;
 
   static final StreamController<int> controller =
       StreamController<int>.broadcast();
@@ -72,7 +73,6 @@ class _MainPageState extends State<MainPage> {
     const MyHomePage(),
     const Account(),
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,10 +126,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[pageIndex],
-      bottomNavigationBar: getBottomNavBar(),
-    );
+    if (pageIndex == 2) {
+      return Scaffold(
+        body: pages[pageIndex],
+      );
+    } else {
+      return Scaffold(
+        body: pages[pageIndex],
+        bottomNavigationBar: getBottomNavBar(),
+      );
+    }
   }
 
   Container getBottomNavBar() {
@@ -145,6 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
               enableFeedback: false,
               onPressed: () {
                 setState(() {
+                  MyApp.controller.add(0);
                   pageIndex = 0;
                 });
               },
@@ -153,6 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               onPressed: () {
                 setState(() {
+                  MyApp.controller.add(1);
                   pageIndex = 1;
                 });
               },
@@ -161,14 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               onPressed: () {
                 setState(() {
-                  pageIndex = 2;
-                });
-              },
-              icon: CustomWidgets.buildNavIcon(
-                  Icons.settings, pageIndex == 2 ? true : false)),
-          IconButton(
-              onPressed: () {
-                setState(() {
+                  MyApp.controller.add(3);
                   pageIndex = 3;
                 });
               },
