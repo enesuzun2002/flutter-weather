@@ -3,6 +3,7 @@ import 'package:weather/main.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:weather/widgets/get_weather.dart';
+import 'package:weather/widgets/nav_drawer.dart';
 
 class Search extends StatefulWidget {
   Search({Key? key}) : super(key: key);
@@ -18,7 +19,9 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
+    final Stream<int> stream = MyApp.controller.stream;
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: CustomWidgets.getAppBar("Şehir Ekle"),
       body: SafeArea(
         child: Padding(
@@ -49,7 +52,6 @@ class _SearchState extends State<Search> {
                 height: 16.0,
               ),
               ElevatedButton(
-                  // TODO: Go back to home page agter successfully adding city.
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       GetWeather.getData(widget.city);

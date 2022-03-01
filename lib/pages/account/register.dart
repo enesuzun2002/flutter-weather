@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/pages/account/login.dart';
+import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 
 class Register extends StatefulWidget {
@@ -99,7 +100,13 @@ class _RegisterState extends State<Register> {
             ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    print("Process data");
+                    final provider = Provider.of<FirebaseFuncsProvider>(context,
+                        listen: false);
+                    provider.firebaseRegister(email, password);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        duration: Duration(seconds: 1),
+                        content:
+                            Text("Successfully registered logging in...")));
                   } else {
                     print('Error');
                   }

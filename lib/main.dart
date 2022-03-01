@@ -1,10 +1,17 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/pages/account.dart';
 import 'package:weather/pages/home.dart';
+import 'package:weather/pages/profile.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/pages/settings.dart';
+import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:weather/widgets/nav_drawer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,12 +26,71 @@ class MyApp extends StatelessWidget {
   static bool isRunning = false;
   static bool isShown = false;
 
+  static final StreamController<int> controller =
+      StreamController<int>.broadcast();
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Weather',
-      home: MyHomePage(),
+    return ChangeNotifierProvider(
+      create: (context) {
+        return FirebaseFuncsProvider();
+      },
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Weather',
+        home: MainPage(),
+      ),
+    );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  static final StreamController<int> controller =
+      StreamController<int>.broadcast();
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  final Stream<int> stream = MainPage.controller.stream;
+
+  int pageIndex = 1;
+
+  @override
+  void initState() {
+    stream.listen((event) {
+      pageIndex = event;
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  final pages = [
+    const MyHomePage(),
+    const Account(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData) {
+              pageIndex = 0;
+              return pages[pageIndex];
+            } else if (snapshot.hasError) {
+              return Center(child: Text("Something went wrong!"));
+            } else {
+              pageIndex = 1;
+              return pages[pageIndex];
+            }
+          }),
     );
   }
 }
@@ -37,24 +103,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int pageIndex = 3;
+  int pageIndex = 0;
+
+  final Stream<int> stream = MyApp.controller.stream;
 
   final pages = [
     const Home(),
     Search(),
     const Settings(),
-    const Account(),
+    const Profile(),
   ];
 
   @override
   void initState() {
+    stream.listen((pageIndexS) {
+      setState(() {
+        pageIndex = pageIndexS;
+      });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // drawer: const NavDrawer(),
       body: pages[pageIndex],
       bottomNavigationBar: getBottomNavBar(),
     );
@@ -64,9 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       width: double.infinity,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.0),
-          color: const Color.fromARGB(255, 215, 232, 250)),
+      decoration:
+          BoxDecoration(color: const Color.fromARGB(255, 215, 232, 250)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

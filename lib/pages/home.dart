@@ -6,6 +6,7 @@ import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:weather/widgets/get_weather.dart';
+import 'package:weather/widgets/nav_drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: CustomWidgets.getAppBar("Hava Durumu"),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -38,6 +40,7 @@ class _HomeState extends State<Home> {
           if (MyApp.reload) {
             await refresh();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                duration: Duration(seconds: 1),
                 content: Text("Weather data successfully reloaded!")));
             MyApp.reload = false;
             // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
@@ -55,6 +58,7 @@ class _HomeState extends State<Home> {
                 "Refresh called at ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second} but it failed...");
             if (!MyApp.isShown) {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  duration: Duration(seconds: 1),
                   content: Text(
                       "You have to wait atleast 3 minutes before reloading!")));
               MyApp.isShown = true;

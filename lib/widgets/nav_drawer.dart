@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/services/firebase_funcs_provider.dart';
 
 class NavDrawer extends StatefulWidget {
   const NavDrawer({Key? key}) : super(key: key);
@@ -28,48 +30,18 @@ class _NavDrawerState extends State<NavDrawer> {
               thickness: 1,
             ),
             ListTile(
-              leading: const Icon(Icons.favorite),
-              title: const Text('Item 1'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Log Out'),
               selected: _selectedDestination == 0,
-              onTap: () => selectDestination(0),
-            ),
-            ListTile(
-              leading: const Icon(Icons.delete),
-              title: const Text('Item 2'),
-              selected: _selectedDestination == 1,
-              onTap: () => selectDestination(1),
-            ),
-            ListTile(
-              leading: const Icon(Icons.label),
-              title: const Text('Item 3'),
-              selected: _selectedDestination == 2,
-              onTap: () => selectDestination(2),
-            ),
-            const Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Label',
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.bookmark),
-              title: const Text('Item A'),
-              selected: _selectedDestination == 3,
-              onTap: () => selectDestination(3),
+              onTap: () {
+                final provider =
+                    Provider.of<FirebaseFuncsProvider>(context, listen: false);
+                provider.googleLogOut();
+              },
             ),
           ],
         ),
       ),
     );
-  }
-
-  void selectDestination(int index) {
-    setState(() {
-      _selectedDestination = index;
-    });
   }
 }
