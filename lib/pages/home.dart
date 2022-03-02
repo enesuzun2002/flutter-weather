@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
@@ -71,18 +72,16 @@ class _HomeState extends State<Home> {
         },
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0),
-          child: ListView.builder(
+          child: ListView.separated(
+            separatorBuilder: (context, index) => const SizedBox(height: 16.0),
             itemCount: MyApp.weatherList.isEmpty ? 1 : MyApp.weatherList.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: MyApp.weatherList.isEmpty
-                      ? const GetWeather()
-                      : CustomWidgets.getWeatherCard(
-                          MyApp.weatherList.elementAt(index)),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: MyApp.weatherList.isEmpty
+                    ? const GetWeather()
+                    : CustomWidgets.getWeatherCard(
+                        MyApp.weatherList.elementAt(index)),
               );
             },
           ),

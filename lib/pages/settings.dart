@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather/main.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:weather/widgets/nav_drawer.dart';
 
