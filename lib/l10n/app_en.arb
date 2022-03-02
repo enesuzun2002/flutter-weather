@@ -1,0 +1,166 @@
+{
+    "weather": "Weather",
+    "@weather": {
+      "description": "The air's condition."
+    },
+    "scfReload": "Weather data successfully reloaded!",
+    "@scfReload": {
+        "description": "Shown when weather data is successfully reloaded."
+    },
+    "reloadWait": "You have to wait atleast 3 minutes before reloading!",
+    "@reloadWait": {
+        "description": "Waiting time for reloading the weather data."
+    },
+    "addNewCity": "Add New City",
+    "@addNewCity": {
+        "description": "Search page header."
+    },
+    "cityName": "Type in city name...",
+    "@cityName": {
+        "description": "Search page input field's hint text."
+    },
+    "cityNameErr": "Please enter city name",
+    "@cityNameErr": {
+        "description": "Search page input field's error text."
+    },
+    "addCity": "Add",
+    "@addCity": {
+        "description": "Search page elevated button text."
+    },
+    "spErr": "Something went wrong!",
+    "@spErr": {
+        "description": "Snapshot's error message."
+    },
+    "logIn": "Login",
+    "@logIn": {
+        "description": "Login page header."
+    },
+    "emailHint": "Type in your email...",
+    "@emailHint": {
+        "description": "Email input field hint text."
+    },
+    "emailEmpty": "Please enter your email.",
+    "@emailEmpty": {
+        "description": "Email input field empty error text."
+    },
+    "emailInvalid": "Please enter valid email",
+    "@emailInvalid": {
+        "description": "Email invalid error text."
+    },
+    "passHint": "Type in your password...",
+    "@passHint": {
+        "description": "Password input field hint text."
+    },
+    "passEmpty": "Please enter your password",
+    "@passEmpty": {
+        "description": "Password input field empty error text."
+    },
+    "logInB": "Login",
+    "@logInB": {
+        "description": "Login button text."
+    },
+    "gSignIn": "Sign in with Google",
+    "@gSignIn": {
+        "description": "Sign in with Google button text."
+    },
+    "registerB": "Register",
+    "@registerB": {
+        "description": "Register button text."
+    },
+    "passResetSnack": "Check your email to reset your password!",
+    "@passResetSnack": {
+        "description": "Password reset snackbar message."
+    },
+    "passResetB": "Forgot My Password",
+    "@passResetB": {
+        "description": "Password reset button text."
+    },
+    "guestB": "Continue as guest",
+    "@guestB": {
+        "description": "Guest button text."
+    },
+    "register": "Register",
+    "@register": {
+        "description": "Register page header."
+    },
+    "passConfHint": "Confirm your password...",
+    "@passConfHint": {
+        "description": "Password confirmation input field hint text."
+    },
+    "passMatchErr": "Password do not match",
+    "@passMatchErr": {
+        "description": "Password confirmation match error text."
+    },
+    "passConfEmpty": "Please confirm your password",
+    "@passConfEmpty": {
+        "description": "Password confirmation input field empty error text."
+    },
+    "registerScss": "Successfully registered logging in...",
+    "@registerScss": {
+        "description": "Successful register snack message."
+    },
+    "goBackB": "Go Back",
+    "@goBackB": {
+        "description": "Go Back button text."
+    },
+    "profile": "Profile",
+    "@profile": {
+        "description": "Profile page header."
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "Settings page header."
+    },
+    "clouds": "Clouds",
+    "@clouds": {
+        "description": "Cloudy weather condition."
+    },
+    "thunderstorm": "Thunderstorm",
+    "@thunderstorm": {
+        "description": "Thunderstorm weather condition."
+    },
+    "drizzle": "Drizzle",
+    "@drizzle": {
+        "description": "Drizzle weather condition."
+    },
+    "rain": "Rain",
+    "@rain": {
+        "description": "Rainy weather condition."
+    },
+    "snow": "Snow",
+    "@snow": {
+        "description": "Snowy weather condition."
+    },
+    "atmos": "Atmosphere",
+    "@atmos": {
+        "description": "Atmosphere weather condition."
+    },
+    "clear": "Clear",
+    "@clear": {
+        "description": "Clear weather condition."
+    },
+    "unknownW": "Unknown weather condition",
+    "@clear": {
+        "description": "Unknown weather condition."
+    },
+    "about": "About",
+    "@about": {
+        "description": "About page header."
+    },
+    "home": "Home",
+    "@home": {
+        "description": "Home page navbar text."
+    },
+    "account": "Account",
+    "@account": {
+        "description": "Account navbar text."
+    },
+    "logOut": "Log Out",
+    "@logOut": {
+        "description": "Log out navbar text."
+    },
+    "pAddCity": "Try adding a city so app can show weather data!",
+    "@pAddCity": {
+        "description": "No city added error message"
+    }
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/weather_api_client.dart';
 import 'package:weather/weather/weather_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomWidgets {
   static Color getColor(WeatherData weatherData) {
@@ -58,7 +59,8 @@ class CustomWidgets {
     }
   }
 
-  static SingleChildScrollView getWeatherCard(WeatherData weatherData) {
+  static SingleChildScrollView getWeatherCard(
+      BuildContext context, WeatherData weatherData) {
     return SingleChildScrollView(
       child: Container(
         height: 179.0,
@@ -68,7 +70,7 @@ class CustomWidgets {
             borderRadius: BorderRadius.circular(16.0)),
         child: Padding(
           padding: const EdgeInsets.all(28.0),
-          child: getWeatherCardInfo(weatherData),
+          child: getWeatherCardInfo(context, weatherData),
         ),
       ),
     );
@@ -95,28 +97,30 @@ class CustomWidgets {
     return name;
   }
 
-  static String getWeatherDescription(String weatherDesc) {
+  static String getWeatherDescription(
+      BuildContext context, String weatherDesc) {
     switch (weatherDesc) {
       case "Clouds":
-        return "Bulutlu";
+        return AppLocalizations.of(context)!.clouds;
       case "Thunderstorm":
-        return "Fırtına";
+        return AppLocalizations.of(context)!.thunderstorm;
       case "Drizzle":
-        return "Ahmak Islatan Yağmuru";
+        return AppLocalizations.of(context)!.drizzle;
       case "Rain":
-        return "Yağmur";
+        return AppLocalizations.of(context)!.rain;
       case "Snow":
-        return "Kar";
+        return AppLocalizations.of(context)!.snow;
       case "Atmosphere":
-        return "Atmosferik Olay (Eklenmedi)";
+        return AppLocalizations.of(context)!.atmos;
       case "Clear":
-        return "Açık Hava";
+        return AppLocalizations.of(context)!.clear;
       default:
-        return "Bilinmeyen Durum";
+        return AppLocalizations.of(context)!.unknownW;
     }
   }
 
-  static Column getWeatherCardInfo(WeatherData weatherData) {
+  static Column getWeatherCardInfo(
+      BuildContext context, WeatherData weatherData) {
     String name = fixCityName(weatherData);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,7 +136,7 @@ class CustomWidgets {
             Image.network(
                 "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),
             Text(
-              "${weatherData.main!.temp.floor()} C\n${getWeatherDescription(weatherData.weather[0].main)}",
+              "${weatherData.main!.temp.floor()} C\n${getWeatherDescription(context, weatherData.weather[0].main)}",
               style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
@@ -152,6 +156,6 @@ class CustomWidgets {
     return cities;
   }
 
-  static final RegExp emailRegex = new RegExp(
+  static final RegExp emailRegex = RegExp(
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
 }

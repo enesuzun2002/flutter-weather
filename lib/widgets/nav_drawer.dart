@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavDrawer extends StatefulWidget {
   const NavDrawer({Key? key}) : super(key: key);
@@ -28,20 +29,20 @@ class _NavDrawerState extends State<NavDrawer> {
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Weather',
+                AppLocalizations.of(context)!.weather,
               ),
             ),
             const Divider(
               height: 1,
               thickness: 1,
             ),
-            MyApp.selectedDestination == 2
+            MyApp.selectedDestination == 2 || MyApp.selectedDestination == 4
                 ? ListTile(
                     leading: const Icon(Icons.home),
-                    title: const Text('Home'),
+                    title: Text(AppLocalizations.of(context)!.home),
                     selected: MyApp.selectedDestination == 0,
                     onTap: () {
                       MyApp.controller.add(0);
@@ -50,7 +51,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 : Container(),
             ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
+              title: Text(AppLocalizations.of(context)!.settings),
               selected: MyApp.selectedDestination == 2,
               onTap: () {
                 MyApp.controller.add(2);
@@ -58,16 +59,16 @@ class _NavDrawerState extends State<NavDrawer> {
             ),
             ListTile(
               leading: const Icon(Icons.info),
-              title: const Text('About'),
+              title: Text(AppLocalizations.of(context)!.about),
               selected: MyApp.selectedDestination == 4,
               onTap: () {
                 MyApp.controller.add(4);
               },
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Account',
+                AppLocalizations.of(context)!.account,
               ),
             ),
             const Divider(
@@ -76,7 +77,7 @@ class _NavDrawerState extends State<NavDrawer> {
             ),
             ListTile(
               leading: const Icon(Icons.logout),
-              title: const Text('Log Out'),
+              title: Text(AppLocalizations.of(context)!.logOut),
               onTap: () {
                 final provider =
                     Provider.of<FirebaseFuncsProvider>(context, listen: false);

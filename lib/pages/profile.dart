@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:weather/widgets/nav_drawer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: CustomWidgets.getAppBar(user == null || user.displayName == null
-          ? "Profile"
+          ? AppLocalizations.of(context)!.profile
           : user.displayName!),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

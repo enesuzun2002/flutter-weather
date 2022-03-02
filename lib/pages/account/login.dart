@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/widgets/custom_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomWidgets.getAppBar("Login"),
+      appBar: CustomWidgets.getAppBar(AppLocalizations.of(context)!.logIn),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -40,19 +41,19 @@ class _LoginState extends State<Login> {
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         autovalidateMode: AutovalidateMode.disabled,
-                        decoration: const InputDecoration(
-                            hintText: "Type in your email...",
-                            icon: Icon(Icons.person)),
+                        decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.emailHint,
+                            icon: const Icon(Icons.person)),
                         autocorrect: false,
                         autofocus: true,
                         enableSuggestions: false,
                         controller: Login.emailEditingController,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter your email';
+                            return AppLocalizations.of(context)!.emailEmpty;
                           } else if (!CustomWidgets.emailRegex
                               .hasMatch(value)) {
-                            return 'Please enter valid email';
+                            return AppLocalizations.of(context)!.emailInvalid;
                           }
                           return null;
                         },
@@ -62,16 +63,16 @@ class _LoginState extends State<Login> {
                       TextFormField(
                         keyboardType: TextInputType.visiblePassword,
                         autovalidateMode: AutovalidateMode.disabled,
-                        decoration: const InputDecoration(
-                            hintText: "Type in your password...",
-                            icon: Icon(Icons.password)),
+                        decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.passHint,
+                            icon: const Icon(Icons.password)),
                         autocorrect: false,
                         enableSuggestions: false,
                         controller: _passwordEditingController,
                         obscureText: true,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter your password';
+                            return AppLocalizations.of(context)!.passEmpty;
                           }
                           return null;
                         },
@@ -89,42 +90,39 @@ class _LoginState extends State<Login> {
                           context,
                           listen: false);
                       provider.firebaseLogin(email, password);
-                    } else {
-                      print('Error');
                     }
                   },
-                  child: const Text("Login")),
+                  child: Text(AppLocalizations.of(context)!.logInB)),
               ElevatedButton(
                   onPressed: () {
                     final provider = Provider.of<FirebaseFuncsProvider>(context,
                         listen: false);
                     provider.googleLogin();
                   },
-                  child: const Text("Sign in with Google")),
+                  child: Text(AppLocalizations.of(context)!.gSignIn)),
               ElevatedButton(
                   onPressed: () {
                     Login.controller.add(1);
                   },
-                  child: const Text("Register")),
+                  child: Text(AppLocalizations.of(context)!.registerB)),
               ElevatedButton(
                   onPressed: () {
                     final provider = Provider.of<FirebaseFuncsProvider>(context,
                         listen: false);
                     provider.firebaseForgotPass(email);
-                    print(email);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         content: Text(
-                            "Check your email for password resetting...")));
+                            AppLocalizations.of(context)!.passResetSnack)));
                   },
-                  child: const Text("Forgot My Password")),
+                  child: Text(AppLocalizations.of(context)!.passResetB)),
               ElevatedButton(
                   onPressed: () {
                     final provider = Provider.of<FirebaseFuncsProvider>(context,
                         listen: false);
                     provider.firebaseGuest();
                   },
-                  child: const Text("Continue as guest")),
+                  child: Text(AppLocalizations.of(context)!.guestB)),
             ],
           ),
         ),

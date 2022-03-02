@@ -3,6 +3,7 @@ import 'package:weather/main.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:weather/widgets/nav_drawer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Search extends StatefulWidget {
   Search({Key? key}) : super(key: key);
@@ -18,10 +19,9 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    final Stream<int> stream = MyApp.controller.stream;
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: CustomWidgets.getAppBar("Şehir Ekle"),
+      appBar: CustomWidgets.getAppBar(AppLocalizations.of(context)!.addNewCity),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -31,16 +31,16 @@ class _SearchState extends State<Search> {
                 key: _formKey,
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.disabled,
-                  decoration: const InputDecoration(
-                      hintText: "Type in city name...",
-                      icon: Icon(Icons.search)),
+                  decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.cityName,
+                      icon: const Icon(Icons.search)),
                   autocorrect: false,
                   autofocus: true,
                   enableSuggestions: false,
                   controller: _cityEditingController,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter city name';
+                      return AppLocalizations.of(context)!.cityNameErr;
                     }
                     return null;
                   },
@@ -58,11 +58,9 @@ class _SearchState extends State<Search> {
                       WeatherSharedPrefs.updateCities(
                           CustomWidgets.weatherListCityNamesToList(
                               MyApp.weatherList));
-                    } else {
-                      print('Error');
                     }
                   },
-                  child: const Text("Ekle")),
+                  child: Text(AppLocalizations.of(context)!.addCity)),
             ],
           ),
         ),

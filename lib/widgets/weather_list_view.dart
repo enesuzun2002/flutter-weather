@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/widgets/custom_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WeatherListView extends StatelessWidget {
   const WeatherListView({
@@ -18,7 +19,7 @@ class WeatherListView extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             if (MyApp.weatherList.isEmpty) {
               return Center(
-                child: Text("Try adding a city so i can show a card!"),
+                child: Text(AppLocalizations.of(context)!.pAddCity),
               );
             } else {
               return Padding(
@@ -31,7 +32,7 @@ class WeatherListView extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: CustomWidgets.getWeatherCard(
-                          MyApp.weatherList.elementAt(index)),
+                          context, MyApp.weatherList.elementAt(index)),
                     );
                   },
                 ),
@@ -47,7 +48,7 @@ class WeatherListView extends StatelessWidget {
     } else {
       if (MyApp.weatherList.isEmpty) {
         return Center(
-          child: Text("Try adding a city so i can show a card!"),
+          child: Text(AppLocalizations.of(context)!.pAddCity),
         );
       } else {
         return Padding(
@@ -59,7 +60,7 @@ class WeatherListView extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: CustomWidgets.getWeatherCard(
-                    MyApp.weatherList.elementAt(index)),
+                    context, MyApp.weatherList.elementAt(index)),
               );
             },
           ),

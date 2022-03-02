@@ -12,7 +12,7 @@ import 'package:weather/pages/settings.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:weather/widgets/nav_drawer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +39,8 @@ class MyApp extends StatelessWidget {
         return FirebaseFuncsProvider();
       },
       child: const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         debugShowCheckedModeBanner: false,
         title: 'Weather',
         home: MainPage(),
@@ -82,12 +84,12 @@ class _MainPageState extends State<MainPage> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasData) {
               pageIndex = 0;
               return pages[pageIndex];
             } else if (snapshot.hasError) {
-              return Center(child: Text("Something went wrong!"));
+              return Center(child: Text(AppLocalizations.of(context)!.spErr));
             } else {
               pageIndex = 1;
               return pages[pageIndex];
@@ -129,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (pageIndex == 2) {
+    if (pageIndex == 2 || pageIndex == 4) {
       return Scaffold(
         body: pages[pageIndex],
       );
@@ -146,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       width: double.infinity,
       decoration:
-          BoxDecoration(color: const Color.fromARGB(255, 215, 232, 250)),
+          const BoxDecoration(color: Color.fromARGB(255, 215, 232, 250)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
@@ -8,6 +6,7 @@ import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:weather/widgets/nav_drawer.dart';
 import 'package:weather/widgets/weather_list_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,41 +20,36 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: CustomWidgets.getAppBar("Hava Durumu"),
+      appBar: CustomWidgets.getAppBar(AppLocalizations.of(context)!.weather),
       body: RefreshIndicator(
         onRefresh: () async {
           if (!MyApp.reload && !MyApp.isRunning) {
             MyApp.isRunning = true;
             Timer(const Duration(minutes: 3), () {
-              print("You can reload now!");
               MyApp.reload = true;
               MyApp.isRunning = false;
             });
           }
           if (MyApp.reload) {
             await refresh();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                duration: Duration(seconds: 1),
-                content: Text("Weather data successfully reloaded!")));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                duration: const Duration(seconds: 1),
+                content: Text(AppLocalizations.of(context)!.scfReload)));
             MyApp.reload = false;
             // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
             // Also add a guard so this only works if reload is false.
             if (!MyApp.reload && !MyApp.isRunning) {
               MyApp.isRunning = true;
               Timer(const Duration(minutes: 3), () {
-                print("You can reload again!");
                 MyApp.reload = true;
                 MyApp.isRunning = false;
               });
             }
           } else {
-            print(
-                "Refresh called at ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second} but it failed...");
             if (!MyApp.isShown) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  duration: Duration(seconds: 1),
-                  content: Text(
-                      "You have to wait atleast 3 minutes before reloading!")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  duration: const Duration(seconds: 1),
+                  content: Text(AppLocalizations.of(context)!.reloadWait)));
               MyApp.isShown = true;
               Timer(const Duration(seconds: 30), () {
                 MyApp.isShown = false;

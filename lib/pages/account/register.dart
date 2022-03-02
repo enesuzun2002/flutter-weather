@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather/pages/account/login.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/widgets/custom_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomWidgets.getAppBar("Register"),
+      appBar: CustomWidgets.getAppBar(AppLocalizations.of(context)!.register),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
@@ -36,18 +37,18 @@ class _RegisterState extends State<Register> {
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       autovalidateMode: AutovalidateMode.disabled,
-                      decoration: const InputDecoration(
-                          hintText: "Type in your email...",
-                          icon: Icon(Icons.person)),
+                      decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.emailHint,
+                          icon: const Icon(Icons.person)),
                       autocorrect: false,
                       autofocus: true,
                       enableSuggestions: false,
                       controller: Login.emailEditingController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter your email';
+                          return AppLocalizations.of(context)!.emailEmpty;
                         } else if (!CustomWidgets.emailRegex.hasMatch(value)) {
-                          return 'Please enter valid email';
+                          return AppLocalizations.of(context)!.emailInvalid;
                         }
                         return null;
                       },
@@ -57,16 +58,16 @@ class _RegisterState extends State<Register> {
                       keyboardType: TextInputType.visiblePassword,
                       key: _passwordFieldKey,
                       autovalidateMode: AutovalidateMode.disabled,
-                      decoration: const InputDecoration(
-                          hintText: "Type in your password...",
-                          icon: Icon(Icons.password)),
+                      decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.passHint,
+                          icon: const Icon(Icons.password)),
                       autocorrect: false,
                       enableSuggestions: false,
                       controller: _passwordEditingController,
                       obscureText: true,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter your password';
+                          return AppLocalizations.of(context)!.passEmpty;
                         }
                         return null;
                       },
@@ -75,18 +76,18 @@ class _RegisterState extends State<Register> {
                     TextFormField(
                       keyboardType: TextInputType.visiblePassword,
                       autovalidateMode: AutovalidateMode.disabled,
-                      decoration: const InputDecoration(
-                          hintText: "Confirm your password...",
-                          icon: Icon(Icons.password)),
+                      decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.passConfHint,
+                          icon: const Icon(Icons.password)),
                       autocorrect: false,
                       enableSuggestions: false,
                       controller: _passwordCEditingController,
                       obscureText: true,
                       validator: (value) {
                         if (value != _passwordFieldKey.currentState!.value) {
-                          return 'Password do not match';
+                          return AppLocalizations.of(context)!.passMatchErr;
                         } else if (value!.isEmpty) {
-                          return 'Please confirm your password';
+                          return AppLocalizations.of(context)!.passConfEmpty;
                         }
                         return null;
                       },
@@ -104,19 +105,17 @@ class _RegisterState extends State<Register> {
                         listen: false);
                     provider.firebaseRegister(email, password);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         content:
-                            Text("Successfully registered logging in...")));
-                  } else {
-                    print('Error');
+                            Text(AppLocalizations.of(context)!.registerScss)));
                   }
                 },
-                child: const Text("Register")),
+                child: Text(AppLocalizations.of(context)!.registerB)),
             ElevatedButton(
                 onPressed: () {
                   Login.controller.add(0);
                 },
-                child: const Text("Go Back")),
+                child: Text(AppLocalizations.of(context)!.goBackB)),
           ],
         ),
       ),
