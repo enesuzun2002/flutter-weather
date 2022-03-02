@@ -56,6 +56,14 @@ class _NavDrawerState extends State<NavDrawer> {
                 MyApp.controller.add(2);
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text('About'),
+              selected: MyApp.selectedDestination == 4,
+              onTap: () {
+                MyApp.controller.add(4);
+              },
+            ),
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(

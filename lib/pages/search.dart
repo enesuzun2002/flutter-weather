@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/widgets/custom_widgets.dart';
-import 'package:weather/widgets/get_weather.dart';
 import 'package:weather/widgets/nav_drawer.dart';
 
 class Search extends StatefulWidget {
@@ -54,7 +53,7 @@ class _SearchState extends State<Search> {
               ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      GetWeather.getData(widget.city);
+                      CustomWidgets.getData(widget.city);
                       _cityEditingController.clear();
                       WeatherSharedPrefs.updateCities(
                           CustomWidgets.weatherListCityNamesToList(

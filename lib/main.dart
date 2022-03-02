@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/pages/about.dart';
 import 'package:weather/pages/account.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/profile.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
   static bool isRunning = false;
   static bool isShown = false;
   static int selectedDestination = 0;
+  static bool firstRun = true;
 
   static final StreamController<int> controller =
       StreamController<int>.broadcast();
@@ -112,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Search(),
     const Settings(),
     const Profile(),
+    const About(),
   ];
 
   @override

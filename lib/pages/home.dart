@@ -6,8 +6,8 @@ import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/widgets/custom_widgets.dart';
-import 'package:weather/widgets/get_weather.dart';
 import 'package:weather/widgets/nav_drawer.dart';
+import 'package:weather/widgets/weather_list_view.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,12 +17,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  @override
-  void initState() {
-    ReloadWeatherData.weatherDataReloadSharedPrefs();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,31 +64,16 @@ class _HomeState extends State<Home> {
             setState(() {});
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: ListView.separated(
-            separatorBuilder: (context, index) => const SizedBox(height: 16.0),
-            itemCount: MyApp.weatherList.isEmpty ? 1 : MyApp.weatherList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: MyApp.weatherList.isEmpty
-                    ? const GetWeather()
-                    : CustomWidgets.getWeatherCard(
-                        MyApp.weatherList.elementAt(index)),
-              );
-            },
-          ),
-        ),
+        child: const WeatherListView(),
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+        onPressed: () {
           if (MyApp.weatherList.isNotEmpty) {
             MyApp.weatherList.removeLast();
             WeatherSharedPrefs.updateCities(
                 CustomWidgets.weatherListCityNamesToList(MyApp.weatherList));
-            await refresh();
+            refresh();
           }
         },
         child: const Icon(Icons.remove_circle_rounded),

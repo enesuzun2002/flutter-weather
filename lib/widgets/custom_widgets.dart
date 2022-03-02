@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/main.dart';
+import 'package:weather/services/weather_api_client.dart';
 import 'package:weather/weather/weather_data.dart';
 
 class CustomWidgets {
@@ -38,16 +39,37 @@ class CustomWidgets {
         ));
   }
 
-  static Container getWeatherCard(WeatherData weatherData) {
-    return Container(
-      height: 179.0,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: CustomWidgets.getColor(weatherData),
-          borderRadius: BorderRadius.circular(16.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(28.0),
-        child: getWeatherCardInfo(weatherData),
+  static Future<WeatherData?> getData(String city) async {
+    WeatherData weatherData = WeatherData();
+    WeatherApiClient client = WeatherApiClient();
+    weatherData = await client.getWeatherData(city);
+    if (weatherData.cod == "404") {
+      return MyApp.weatherList.last;
+    } else {
+      for (var element in MyApp.weatherList) {
+        if (element.name == weatherData.name) {
+          MyApp.weatherList.remove(element);
+          MyApp.weatherList.add(weatherData);
+          return weatherData;
+        }
+      }
+      MyApp.weatherList.add(weatherData);
+      return weatherData;
+    }
+  }
+
+  static SingleChildScrollView getWeatherCard(WeatherData weatherData) {
+    return SingleChildScrollView(
+      child: Container(
+        height: 179.0,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: CustomWidgets.getColor(weatherData),
+            borderRadius: BorderRadius.circular(16.0)),
+        child: Padding(
+          padding: const EdgeInsets.all(28.0),
+          child: getWeatherCardInfo(weatherData),
+        ),
       ),
     );
   }
