@@ -11,11 +11,12 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  CustomWidgets cw = CustomWidgets();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: CustomWidgets.getAppBar(AppLocalizations.of(context)!.settings),
+      appBar: cw.getAppBar(AppLocalizations.of(context)!.settings),
       body: SafeArea(child: Stack(children: const [])),
     );
   }

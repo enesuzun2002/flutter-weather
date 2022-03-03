@@ -4,7 +4,6 @@ import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/widgets/custom_widgets.dart';
-import 'package:weather/widgets/nav_drawer.dart';
 import 'package:weather/widgets/weather_list_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -16,11 +15,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  CustomWidgets cw = CustomWidgets();
+  WeatherSharedPrefs wsf = WeatherSharedPrefs();
   @override
   Widget build(BuildContext context) {
+    MyApp.selectedIndex = 0;
     return Scaffold(
-      drawer: const NavDrawer(),
-      appBar: CustomWidgets.getAppBar(AppLocalizations.of(context)!.weather),
       body: RefreshIndicator(
         onRefresh: () async {
           if (!MyApp.reload && !MyApp.isRunning) {
@@ -65,8 +65,7 @@ class _HomeState extends State<Home> {
         onPressed: () {
           if (MyApp.weatherList.isNotEmpty) {
             MyApp.weatherList.removeLast();
-            WeatherSharedPrefs.updateCities(
-                CustomWidgets.weatherListCityNamesToList(MyApp.weatherList));
+            wsf.updateCities(cw.weatherListCityNamesToList(MyApp.weatherList));
             refresh();
           }
         },

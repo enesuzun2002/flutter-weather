@@ -23,7 +23,7 @@
     "@cityNameErr": {
         "description": "Search page input field's error text."
     },
-    "addCity": "Add",
+    "addCity": "ADD",
     "@addCity": {
         "description": "Search page elevated button text."
     },
@@ -55,15 +55,15 @@
     "@passEmpty": {
         "description": "Password input field empty error text."
     },
-    "logInB": "Login",
+    "logInB": "LOGIN",
     "@logInB": {
         "description": "Login button text."
     },
-    "gSignIn": "Sign in with Google",
+    "gSignIn": "SIGN IN WITH GOOGLE",
     "@gSignIn": {
         "description": "Sign in with Google button text."
     },
-    "registerB": "Register",
+    "registerB": "REGISTER",
     "@registerB": {
         "description": "Register button text."
     },
@@ -71,11 +71,11 @@
     "@passResetSnack": {
         "description": "Password reset snackbar message."
     },
-    "passResetB": "Forgot My Password",
+    "passResetB": "FORGOT MY PASSWORD",
     "@passResetB": {
         "description": "Password reset button text."
     },
-    "guestB": "Continue as guest",
+    "guestB": "CONTINUE AS GUEST",
     "@guestB": {
         "description": "Guest button text."
     },
@@ -162,5 +162,9 @@
     "pAddCity": "Try adding a city so app can show weather data!",
     "@pAddCity": {
         "description": "No city added error message"
+    },
+    "search": "Search",
+    "@search": {
+        "description": "Search navbar text."
     }
 }

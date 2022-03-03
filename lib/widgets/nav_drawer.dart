@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/main.dart';
+import 'package:weather/pages/about.dart';
+import 'package:weather/pages/profile.dart';
+import 'package:weather/pages/settings.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,79 +16,114 @@ class NavDrawer extends StatefulWidget {
 }
 
 class _NavDrawerState extends State<NavDrawer> {
-  final Stream<int> stream = MyApp.controller.stream;
-  @override
-  void initState() {
-    stream.listen((event) {
-      MyApp.selectedDestination = event;
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return SafeArea(
       child: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                AppLocalizations.of(context)!.weather,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Material(
+                color: Theme.of(context).colorScheme.primary,
+                child: InkWell(
+                  onTap: () {
+                    MyApp.selectedIndex = -1;
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const Profile()));
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 45.0,
+                            backgroundImage: user == null ||
+                                    user.photoURL == null
+                                ? const NetworkImage(
+                                    "http://getdrawings.com/free-icon/generic-avatar-icon-68.png")
+                                : NetworkImage("${user.photoURL}"),
+                          ),
+                          const SizedBox(height: 10.0),
+                          Text(
+                            user == null ||
+                                    user.displayName == null ||
+                                    user.isAnonymous
+                                ? AppLocalizations.of(context)!.profile
+                                : user.displayName!,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(height: 16.0),
+                        ],
+                      )),
+                ),
               ),
-            ),
-            const Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            MyApp.selectedDestination == 2 || MyApp.selectedDestination == 4
-                ? ListTile(
-                    leading: const Icon(Icons.home),
-                    title: Text(AppLocalizations.of(context)!.home),
-                    selected: MyApp.selectedDestination == 0,
-                    onTap: () {
-                      MyApp.controller.add(0);
-                    },
-                  )
-                : Container(),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: Text(AppLocalizations.of(context)!.settings),
-              selected: MyApp.selectedDestination == 2,
-              onTap: () {
-                MyApp.controller.add(2);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.info),
-              title: Text(AppLocalizations.of(context)!.about),
-              selected: MyApp.selectedDestination == 4,
-              onTap: () {
-                MyApp.controller.add(4);
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                AppLocalizations.of(context)!.account,
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0, left: 16.0),
+                child: Wrap(
+                  runSpacing: 16,
+                  children: <Widget>[
+                    ListTile(
+                      leading: const Icon(Icons.home_outlined),
+                      title: Text(AppLocalizations.of(context)!.home),
+                      selected: MyApp.selectedIndex == 0,
+                      onTap: () {
+                        if (MyApp.selectedIndex != 0) {
+                          MyApp.selectedIndex = 0;
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const MainPage()));
+                          setState(() {});
+                        }
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.settings_outlined),
+                      title: Text(AppLocalizations.of(context)!.settings),
+                      selected: MyApp.selectedIndex == 1,
+                      onTap: () {
+                        if (MyApp.selectedIndex != 1) {
+                          MyApp.selectedIndex = 1;
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const Settings()));
+                          setState(() {});
+                        }
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.info_outlined),
+                      title: Text(AppLocalizations.of(context)!.about),
+                      selected: MyApp.selectedIndex == 2,
+                      onTap: () {
+                        if (MyApp.selectedIndex != 2) {
+                          MyApp.selectedIndex = 2;
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => About()));
+                          setState(() {});
+                        }
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.logout_outlined),
+                      title: Text(AppLocalizations.of(context)!.logOut),
+                      onTap: () {
+                        final provider = Provider.of<FirebaseFuncsProvider>(
+                            context,
+                            listen: false);
+                        provider.googleLogOut();
+                        MainPage.controller.add(1);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => const MainPage()));
+                        setState(() {});
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text(AppLocalizations.of(context)!.logOut),
-              onTap: () {
-                final provider =
-                    Provider.of<FirebaseFuncsProvider>(context, listen: false);
-                provider.googleLogOut();
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

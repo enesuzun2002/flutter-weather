@@ -91,6 +91,10 @@ flutter:
 
   generate: true
 
+  assets:
+    - assets/icon/icon.png
+    - assets/dev.jpg
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - assets/images/avatar.png

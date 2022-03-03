@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/pages/about.dart';
 import 'package:weather/pages/account.dart';
 import 'package:weather/pages/home.dart';
-import 'package:weather/pages/profile.dart';
 import 'package:weather/pages/search.dart';
-import 'package:weather/pages/settings.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
-import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/theme/theme_constants.dart';
+import 'package:weather/theme/theme_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/widgets/nav_drawer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,17 +20,39 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
   static List<dynamic> weatherList = <dynamic>[];
   static bool reload = false;
   static bool isRunning = false;
   static bool isShown = false;
-  static int selectedDestination = 0;
   static bool firstRun = true;
+  static int? selectedIndex;
 
-  static final StreamController<int> controller =
-      StreamController<int>.broadcast();
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final ThemeManager _themeManager = ThemeManager();
+
+  @override
+  void dispose() {
+    _themeManager.removeListener(themeListener);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _themeManager.addListener(themeListener);
+    super.initState();
+  }
+
+  themeListener() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +60,15 @@ class MyApp extends StatelessWidget {
       create: (context) {
         return FirebaseFuncsProvider();
       },
-      child: const MaterialApp(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: _themeManager.themeMode,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        debugShowCheckedModeBanner: false,
         title: 'Weather',
-        home: MainPage(),
+        home: const MainPage(),
       ),
     );
   }
@@ -80,6 +105,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
@@ -101,7 +127,6 @@ class _MainPageState extends State<MainPage> {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -109,77 +134,41 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int pageIndex = 0;
 
-  final Stream<int> stream = MyApp.controller.stream;
+  CustomWidgets cw = CustomWidgets();
 
   final pages = [
     const Home(),
     Search(),
-    const Settings(),
-    const Profile(),
-    const About(),
   ];
 
   @override
   void initState() {
-    stream.listen((pageIndexS) {
-      setState(() {
-        pageIndex = pageIndexS;
-      });
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (pageIndex == 2 || pageIndex == 4) {
-      return Scaffold(
-        body: pages[pageIndex],
-      );
-    } else {
-      return Scaffold(
-        body: pages[pageIndex],
-        bottomNavigationBar: getBottomNavBar(),
-      );
-    }
-  }
-
-  Container getBottomNavBar() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      width: double.infinity,
-      decoration:
-          const BoxDecoration(color: Color.fromARGB(255, 215, 232, 250)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          IconButton(
-              enableFeedback: false,
-              onPressed: () {
-                setState(() {
-                  MyApp.controller.add(0);
-                  pageIndex = 0;
-                });
-              },
-              icon: CustomWidgets.buildNavIcon(
-                  Icons.home_filled, pageIndex == 0 ? true : false)),
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  MyApp.controller.add(1);
-                  pageIndex = 1;
-                });
-              },
-              icon: CustomWidgets.buildNavIcon(
-                  Icons.search, pageIndex == 1 ? true : false)),
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  MyApp.controller.add(3);
-                  pageIndex = 3;
-                });
-              },
-              icon: CustomWidgets.buildNavIcon(
-                  Icons.person, pageIndex == 3 ? true : false)),
+    return Scaffold(
+      appBar: cw.getAppBar(pageIndex == 0
+          ? AppLocalizations.of(context)!.weather
+          : AppLocalizations.of(context)!.addNewCity),
+      drawer: const NavDrawer(),
+      body: pages[pageIndex],
+      bottomNavigationBar: NavigationBar(
+        height: 70.0,
+        selectedIndex: pageIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            pageIndex = index;
+          });
+        },
+        destinations: [
+          NavigationDestination(
+              icon: const Icon(Icons.home),
+              label: AppLocalizations.of(context)!.home),
+          NavigationDestination(
+              icon: const Icon(Icons.search),
+              label: AppLocalizations.of(context)!.search),
         ],
       ),
     );

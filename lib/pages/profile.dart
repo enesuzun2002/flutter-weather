@@ -12,14 +12,16 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  CustomWidgets cw = CustomWidgets();
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: CustomWidgets.getAppBar(user == null || user.displayName == null
-          ? AppLocalizations.of(context)!.profile
-          : user.displayName!),
+      appBar: cw.getAppBar(
+          user == null || user.displayName == null || user.isAnonymous
+              ? AppLocalizations.of(context)!.profile
+              : user.displayName!),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(children: [
@@ -29,7 +31,9 @@ class _ProfileState extends State<Profile> {
                 alignment: AlignmentDirectional.topCenter,
                 child: CircleAvatar(
                   radius: 60.0,
-                  backgroundImage: user == null || user.photoURL == null
+                  backgroundImage: user == null ||
+                          user.photoURL == null ||
+                          user.isAnonymous
                       ? const NetworkImage(
                           "http://getdrawings.com/free-icon/generic-avatar-icon-68.png")
                       : NetworkImage("${user.photoURL}"),

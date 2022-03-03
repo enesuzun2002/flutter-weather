@@ -11,6 +11,7 @@ class WeatherListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CustomWidgets cw = CustomWidgets();
     if (MyApp.firstRun) {
       return FutureBuilder(
         future: ReloadWeatherData.weatherDataReloadSharedPrefs(),
@@ -31,7 +32,7 @@ class WeatherListView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: CustomWidgets.getWeatherCard(
+                      child: cw.getWeatherCard(
                           context, MyApp.weatherList.elementAt(index)),
                     );
                   },
@@ -59,7 +60,7 @@ class WeatherListView extends StatelessWidget {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: CustomWidgets.getWeatherCard(
+                child: cw.getWeatherCard(
                     context, MyApp.weatherList.elementAt(index)),
               );
             },

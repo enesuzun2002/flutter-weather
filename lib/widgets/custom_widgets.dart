@@ -5,33 +5,32 @@ import 'package:weather/weather/weather_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomWidgets {
-  static Color getColor(WeatherData weatherData) {
+  Color getColor(WeatherData weatherData) {
     switch (weatherData.weather[0].main) {
       case "Clouds":
-        return const Color.fromARGB(255, 153, 65, 6);
+        return const Color.fromRGBO(50, 52, 86, 100);
       case "Thunderstorm":
-        return const Color.fromARGB(255, 153, 65, 6);
+        return const Color.fromRGBO(47, 206, 210, 100);
       case "Drizzle":
-        return const Color.fromARGB(255, 153, 65, 6);
+        return const Color.fromRGBO(255, 184, 37, 100);
       case "Rain":
-        return const Color.fromARGB(255, 153, 65, 6);
+        return const Color.fromRGBO(86, 111, 151, 100);
       case "Snow":
-        return const Color.fromARGB(255, 153, 65, 6);
+        return const Color.fromRGBO(127, 164, 178, 100);
       case "Atmosphere":
-        return const Color.fromARGB(255, 153, 65, 6);
+        return const Color.fromRGBO(91, 100, 221, 100);
       case "Clear":
-        return const Color.fromARGB(255, 0, 151, 161);
+        return const Color.fromRGBO(51, 153, 255, 100);
       default:
-        return const Color.fromARGB(255, 153, 65, 6);
+        return const Color.fromRGBO(51, 153, 255, 100);
     }
   }
 
-  static Icon buildNavIcon(IconData iconData, bool active) {
-    return Icon(iconData,
-        size: 20.0, color: Color(active ? 0xFF0001FC : 0xFF0A1034));
+  Icon buildNavIcon(IconData iconData, bool active) {
+    return Icon(iconData, size: 20.0);
   }
 
-  static AppBar getAppBar(String header) {
+  AppBar getAppBar(String header) {
     return AppBar(
         centerTitle: true,
         title: Text(
@@ -40,7 +39,7 @@ class CustomWidgets {
         ));
   }
 
-  static Future<WeatherData?> getData(String city) async {
+  Future<WeatherData?> getData(String city) async {
     WeatherData weatherData = WeatherData();
     WeatherApiClient client = WeatherApiClient();
     weatherData = await client.getWeatherData(city);
@@ -59,14 +58,14 @@ class CustomWidgets {
     }
   }
 
-  static SingleChildScrollView getWeatherCard(
+  SingleChildScrollView getWeatherCard(
       BuildContext context, WeatherData weatherData) {
     return SingleChildScrollView(
       child: Container(
         height: 179.0,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: CustomWidgets.getColor(weatherData),
+            color: getColor(weatherData),
             borderRadius: BorderRadius.circular(16.0)),
         child: Padding(
           padding: const EdgeInsets.all(28.0),
@@ -76,7 +75,7 @@ class CustomWidgets {
     );
   }
 
-  static Container getProgressIndicatorCard() {
+  Container getProgressIndicatorCard() {
     return Container(
       height: 150.0,
       width: double.infinity,
@@ -87,7 +86,7 @@ class CustomWidgets {
     );
   }
 
-  static String fixCityName(WeatherData weatherData) {
+  String fixCityName(WeatherData weatherData) {
     String name = "";
     if (weatherData.name.toString().contains("Province")) {
       name = weatherData.name.toString().split(" ").first;
@@ -97,8 +96,7 @@ class CustomWidgets {
     return name;
   }
 
-  static String getWeatherDescription(
-      BuildContext context, String weatherDesc) {
+  String getWeatherDescription(BuildContext context, String weatherDesc) {
     switch (weatherDesc) {
       case "Clouds":
         return AppLocalizations.of(context)!.clouds;
@@ -119,8 +117,7 @@ class CustomWidgets {
     }
   }
 
-  static Column getWeatherCardInfo(
-      BuildContext context, WeatherData weatherData) {
+  Column getWeatherCardInfo(BuildContext context, WeatherData weatherData) {
     String name = fixCityName(weatherData);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,7 +145,7 @@ class CustomWidgets {
     );
   }
 
-  static List<String> weatherListCityNamesToList(List<dynamic> weatherList) {
+  List<String> weatherListCityNamesToList(List<dynamic> weatherList) {
     List<String> cities = <String>[];
     for (var element in MyApp.weatherList) {
       cities.add(element.name);
@@ -156,6 +153,6 @@ class CustomWidgets {
     return cities;
   }
 
-  static final RegExp emailRegex = RegExp(
+  final RegExp emailRegex = RegExp(
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
 }

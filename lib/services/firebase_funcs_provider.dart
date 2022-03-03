@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:weather/services/weather_shared_prefs.dart';
 
 class FirebaseFuncsProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
+  WeatherSharedPrefs wsf = WeatherSharedPrefs();
 
   Future googleLogin() async {
     try {
@@ -29,6 +31,8 @@ class FirebaseFuncsProvider extends ChangeNotifier {
   Future googleLogOut() async {
     await googleSignIn.signOut();
     FirebaseAuth.instance.signOut();
+    wsf.clearSharedPrefs();
+    notifyListeners();
   }
 
   Future firebaseLogin(String email, String password) async {
@@ -48,6 +52,7 @@ class FirebaseFuncsProvider extends ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
+    notifyListeners();
   }
 
   Future firebaseForgotPass(String email) async {
@@ -56,6 +61,7 @@ class FirebaseFuncsProvider extends ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
+    notifyListeners();
   }
 
   Future firebaseGuest() async {
@@ -64,5 +70,6 @@ class FirebaseFuncsProvider extends ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
+    notifyListeners();
   }
 }
