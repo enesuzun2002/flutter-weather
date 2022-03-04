@@ -42,9 +42,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() async {
-    WeatherSharedPrefs wsf = WeatherSharedPrefs();
-    MyApp.firstInstall = await wsf.getFirstInstall();
+  void initState() {
     super.initState();
   }
 

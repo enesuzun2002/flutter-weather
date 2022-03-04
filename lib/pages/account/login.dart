@@ -116,7 +116,8 @@ class _LoginState extends State<Login> {
       height: 45.0,
       width: double.infinity,
       child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            MyApp.firstInstall = await wsf.getFirstInstall();
             if (_formKey.currentState!.validate()) {
               if (MyApp.firstInstall) {
                 firstInstallAlert(context);
@@ -137,7 +138,8 @@ class _LoginState extends State<Login> {
       height: 45.0,
       width: double.infinity,
       child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            MyApp.firstInstall = await wsf.getFirstInstall();
             if (MyApp.firstInstall) {
               firstInstallAlert(context);
               MyApp.firstInstall = false;
@@ -173,7 +175,8 @@ class _LoginState extends State<Login> {
       height: 45.0,
       width: double.infinity,
       child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            MyApp.firstInstall = await wsf.getFirstInstall();
             if (MyApp.firstInstall) {
               firstInstallAlert(context);
               MyApp.firstInstall = false;
