@@ -59,19 +59,15 @@ class WeatherListView extends StatelessWidget {
           child: Text(AppLocalizations.of(context)!.pAddCity),
         );
       } else {
-        return Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: ListView.separated(
-            separatorBuilder: (context, index) => const SizedBox(height: 16.0),
-            itemCount: MyApp.weatherList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: cw.getWeatherCard(
-                    context, MyApp.weatherList.elementAt(index)),
-              );
-            },
-          ),
+        return ListView.builder(
+          itemCount: MyApp.weatherList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: cw.getWeatherCard(
+                  context, MyApp.weatherList.elementAt(index)),
+            );
+          },
         );
       }
     }

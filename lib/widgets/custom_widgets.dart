@@ -55,9 +55,9 @@ class CustomWidgets {
     }
   }
 
-  SingleChildScrollView getWeatherCard(
-      BuildContext context, WeatherData weatherData) {
-    return SingleChildScrollView(
+  Padding getWeatherCard(BuildContext context, WeatherData weatherData) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
       child: Container(
         height: 179.0,
         width: double.infinity,
