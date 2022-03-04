@@ -29,9 +29,11 @@ class _NavDrawerState extends State<NavDrawer> {
                 color: Theme.of(context).colorScheme.primary,
                 child: InkWell(
                   onTap: () {
-                    MyApp.selectedIndex = -1;
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const Profile()));
+                    if (MyApp.selectedIndex != -1) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const Profile()));
+                      MyApp.selectedIndex = -1;
+                    }
                   },
                   child: Container(
                       padding: const EdgeInsets.only(top: 12.0),

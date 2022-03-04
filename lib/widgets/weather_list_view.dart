@@ -22,28 +22,28 @@ class WeatherListView extends StatelessWidget {
           MyApp.firstRun = false;
           if (snapshot.connectionState == ConnectionState.done) {
             if (MyApp.weatherList.isEmpty) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(AppLocalizations.of(context)!.pAddCity),
-                ],
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(AppLocalizations.of(context)!.pAddCity),
+                  ],
+                ),
               );
             } else {
-              return Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: ListView.separated(
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 16.0),
-                  itemCount: MyApp.weatherList.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: cw.getWeatherCard(
-                          context, MyApp.weatherList.elementAt(index)),
-                    );
-                  },
-                ),
+              return ListView.separated(
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16.0),
+                itemCount: MyApp.weatherList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: cw.getWeatherCard(
+                        context, MyApp.weatherList.elementAt(index)),
+                  );
+                },
               );
             }
           } else {
