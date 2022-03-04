@@ -23,7 +23,6 @@
     "passConfHint": "Şifrenizi tekrar girin...",
     "passMatchErr": "Şifreler eşleşmiyor",
     "passConfEmpty": "Lütfen şifrenizi tekrar girin",
-    "registerScss": "Başarıyla kayıt olundu giriş yapılıyor...",
     "goBackB": "Geri Dön",
     "profile": "Profil",
     "settings": "Ayarlar",
@@ -48,5 +47,8 @@
     "cancelB": "İptal",
     "okB": "Tamam",
     "removeDesc": "Bu şehir için hava durumu verisini kaldırmak üzeresiniz:",
-    "removeConf": "Bu şehiri kaldırmak istediğinizden emin misiniz?"
+    "removeConf": "Bu şehiri kaldırmak istediğinizden emin misiniz?",
+    "firstLaunchLogin": "İlk kez giriş tespit edildi!",
+    "firstLaunchAlert": "Ayarlar'dan API keyinizi kaydetmeyi unutmayın.",
+    "firstLaunchRegister": "Yeni hesap tespit edildi!"
 }

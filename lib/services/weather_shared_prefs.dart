@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WeatherSharedPrefs {
@@ -6,6 +8,8 @@ class WeatherSharedPrefs {
   final String _keyCities = "cities";
 
   final String _keyTheme = "theme";
+
+  final String _keyFirstInstall = "firstInstall";
 
   void updateCities(List<String> cities) async {
     SharedPreferences prefs = await _weatherSharedPrefs;
@@ -30,5 +34,15 @@ class WeatherSharedPrefs {
   Future<String> getTheme() async {
     SharedPreferences prefs = await _weatherSharedPrefs;
     return prefs.getString(_keyTheme) ?? "";
+  }
+
+  void updateFirstInstall(bool firstInstall) async {
+    SharedPreferences prefs = await _weatherSharedPrefs;
+    prefs.setBool(_keyFirstInstall, firstInstall);
+  }
+
+  Future<bool> getFirstInstall() async {
+    SharedPreferences prefs = await _weatherSharedPrefs;
+    return prefs.getBool(_keyFirstInstall) ?? true;
   }
 }

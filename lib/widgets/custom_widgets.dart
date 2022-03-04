@@ -150,6 +150,17 @@ class CustomWidgets {
     return cities;
   }
 
+  Container getAppImage() {
+    return Container(
+      width: 110.0,
+      height: 110.0,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(35.0)),
+        image: DecorationImage(image: AssetImage('assets/icon/icon.png')),
+      ),
+    );
+  }
+
   final RegExp emailRegex = RegExp(
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
 }

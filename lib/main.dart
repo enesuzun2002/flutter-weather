@@ -8,6 +8,7 @@ import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/services/reload_weather_data.dart';
+import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/theme/theme_constants.dart';
 import 'package:weather/theme/theme_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatefulWidget {
   static bool isRunning = false;
   static bool isShown = false;
   static bool firstRun = true;
+  static bool firstInstall = true;
   static int? selectedIndex;
 
   @override
@@ -39,6 +41,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() async {
+    WeatherSharedPrefs wsf = WeatherSharedPrefs();
+    MyApp.firstInstall = await wsf.getFirstInstall();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeManager>(context, listen: true);

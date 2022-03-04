@@ -95,10 +95,6 @@
     "@passConfEmpty": {
         "description": "Password confirmation input field empty error text."
     },
-    "registerScss": "Successfully registered logging in...",
-    "@registerScss": {
-        "description": "Successful register snack message."
-    },
     "goBackB": "Go Back",
     "@goBackB": {
         "description": "Go Back button text."
@@ -198,5 +194,17 @@
     "removeConf": "Are you sure you want to remove this city?",
     "@removeConf": {
         "description": "Weather data remove text."
+    },
+    "firstLaunchLogin": "First time login detected!",
+    "@firstLaunchLogin": {
+        "description": "Alert header if the app is installed for the first time."
+    },
+    "firstLaunchAlert": "Don't forget to set API key under settings.",
+    "@firstLaunchAlert": {
+        "description": "Alert content if the app is installed for the first time."
+    },
+    "firstLaunchRegister": "New account detected!",
+    "@firstLaunchRegister": {
+        "description": "Alert header if the app is installed and registered for the first time."
     }
 }
