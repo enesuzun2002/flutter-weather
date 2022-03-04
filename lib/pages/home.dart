@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
@@ -75,7 +76,9 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> refresh() async {
-    await ReloadWeatherData.weatherDataReload();
+    final reloadProvider =
+        Provider.of<ReloadWeatherData>(context, listen: false);
+    await reloadProvider.weatherDataReload();
     setState(() {});
   }
 }

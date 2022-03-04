@@ -7,6 +7,7 @@ import 'package:weather/pages/account.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
+import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/theme/theme_constants.dart';
 import 'package:weather/theme/theme_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,7 +18,11 @@ import 'package:weather/widgets/nav_drawer.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => FirebaseFuncsProvider()),
+    ChangeNotifierProvider(create: (_) => ThemeManager()),
+    ChangeNotifierProvider(create: (_) => ReloadWeatherData()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -34,42 +39,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final ThemeManager _themeManager = ThemeManager();
-
-  @override
-  void dispose() {
-    _themeManager.removeListener(themeListener);
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    _themeManager.addListener(themeListener);
-    super.initState();
-  }
-
-  themeListener() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) {
-        return FirebaseFuncsProvider();
-      },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        themeMode: _themeManager.themeMode,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        title: 'Weather',
-        home: const MainPage(),
-      ),
+    final themeProvider = Provider.of<ThemeManager>(context, listen: true);
+    themeProvider.getUserTheme();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: themeProvider.themeMode,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      title: 'Weather',
+      home: const MainPage(),
     );
   }
 }

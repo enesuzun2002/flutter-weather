@@ -166,5 +166,21 @@
     "search": "Search",
     "@search": {
         "description": "Search navbar text."
+    },
+    "themeS": "Theme Settings",
+    "@themeS": {
+        "description": "Theme settings text button and dialog header text."
+    },
+    "sysTheme": "System Theme",
+    "@sysTheme": {
+        "description": "System theme text for dialog option."
+    },
+    "darkTheme": "Dark Theme",
+    "@darkTheme": {
+        "description": "Dark theme text for dialog option."
+    },
+    "lightTheme": "Light Theme",
+    "@lightTheme": {
+        "description": "Dark theme text for dialog option."
     }
 }

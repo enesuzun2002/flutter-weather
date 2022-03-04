@@ -39,22 +39,19 @@ class CustomWidgets {
         ));
   }
 
-  Future<WeatherData?> getData(String city) async {
+  Future<void> getData(String city) async {
     WeatherData weatherData = WeatherData();
     WeatherApiClient client = WeatherApiClient();
     weatherData = await client.getWeatherData(city);
-    if (weatherData.cod == "404") {
-      return MyApp.weatherList.last;
-    } else {
+    if (weatherData.cod != "404") {
       for (var element in MyApp.weatherList) {
         if (element.name == weatherData.name) {
           MyApp.weatherList.remove(element);
           MyApp.weatherList.add(weatherData);
-          return weatherData;
+          return;
         }
       }
       MyApp.weatherList.add(weatherData);
-      return weatherData;
     }
   }
 

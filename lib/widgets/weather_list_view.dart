@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/widgets/custom_widgets.dart';
@@ -12,15 +13,21 @@ class WeatherListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CustomWidgets cw = CustomWidgets();
+    final reloadProvider =
+        Provider.of<ReloadWeatherData>(context, listen: true);
     if (MyApp.firstRun) {
       return FutureBuilder(
-        future: ReloadWeatherData.weatherDataReloadSharedPrefs(),
+        future: reloadProvider.weatherDataReloadSharedPrefs(),
         builder: (context, snapshot) {
           MyApp.firstRun = false;
           if (snapshot.connectionState == ConnectionState.done) {
             if (MyApp.weatherList.isEmpty) {
-              return Center(
-                child: Text(AppLocalizations.of(context)!.pAddCity),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(AppLocalizations.of(context)!.pAddCity),
+                ],
               );
             } else {
               return Padding(

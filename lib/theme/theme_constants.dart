@@ -13,7 +13,14 @@ ThemeData lightTheme = ThemeData(
               const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold))),
     ),
     inputDecorationTheme: InputDecorationTheme(
-        iconColor: ColorScheme.fromSeed(seedColor: Colors.deepOrange).primary));
+      border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+          borderSide: BorderSide.none),
+      filled: true,
+      fillColor: ColorScheme.fromSeed(seedColor: Colors.deepOrange)
+          .primary
+          .withOpacity(0.05),
+    ));
 ThemeData darkTheme = ThemeData(
     colorSchemeSeed: Colors.deepOrange,
     useMaterial3: true,

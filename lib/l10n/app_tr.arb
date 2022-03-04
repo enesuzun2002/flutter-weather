@@ -40,5 +40,9 @@
     "account": "Hesap",
     "logOut": "Çıkış Yap",
     "pAddCity": "Uygulamanın hava durumu verisini gösterebilmesi için bir şehir ekle!",
-    "search": "Arama"
+    "search": "Arama",
+    "themeS": "Tema Ayarları",
+    "sysTheme": "Sistem Teması",
+    "darkTheme": "Karanlık Tema",
+    "lightTheme": "Aydınlık Tema"
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/services/weather_shared_prefs.dart';
+import 'package:weather/theme/theme_manager.dart';
 import 'package:weather/widgets/custom_widgets.dart';
 import 'package:weather/widgets/nav_drawer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,12 +15,115 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   CustomWidgets cw = CustomWidgets();
+  WeatherSharedPrefs wsf = WeatherSharedPrefs();
+
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ThemeManager>(context, listen: true);
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: cw.getAppBar(AppLocalizations.of(context)!.settings),
-      body: SafeArea(child: Stack(children: const [])),
+      body: Column(
+        children: [
+          TextButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return SimpleDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0)),
+                      title: Text(AppLocalizations.of(context)!.themeS),
+                      children: [
+                        SimpleDialogOption(
+                          onPressed: () {
+                            wsf.updateTheme('system');
+                            provider.toogleTheme(ThemeMode.system);
+                            Navigator.pop(context);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 5.0),
+                              Text(AppLocalizations.of(context)!.sysTheme),
+                              const SizedBox(height: 16.0),
+                            ],
+                          ),
+                        ),
+                        SimpleDialogOption(
+                          onPressed: () {
+                            wsf.updateTheme('dark');
+                            provider.toogleTheme(ThemeMode.dark);
+                            Navigator.pop(context);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.darkTheme),
+                                  const Icon(Icons.dark_mode_outlined)
+                                ],
+                              ),
+                              const SizedBox(height: 16.0),
+                            ],
+                          ),
+                        ),
+                        SimpleDialogOption(
+                          onPressed: () {
+                            wsf.updateTheme('light');
+                            provider.toogleTheme(ThemeMode.light);
+                            Navigator.pop(context);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      AppLocalizations.of(context)!.lightTheme),
+                                  const Icon(Icons.light_mode_outlined),
+                                ],
+                              ),
+                              const SizedBox(height: 16.0),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(AppLocalizations.of(context)!.themeS),
+                      provider.themeMode == ThemeMode.system
+                          ? Text(AppLocalizations.of(context)!.sysTheme)
+                          : provider.themeMode == ThemeMode.dark
+                              ? Text(AppLocalizations.of(context)!.darkTheme)
+                              : Text(AppLocalizations.of(context)!.lightTheme)
+                    ],
+                  ),
+                  provider.themeMode == ThemeMode.system
+                      ? provider.getSystemThemeMode(context)
+                          ? const Icon(Icons.dark_mode_outlined)
+                          : const Icon(Icons.light_mode_outlined)
+                      : provider.themeMode == ThemeMode.dark
+                          ? const Icon(Icons.dark_mode_outlined)
+                          : const Icon(Icons.light_mode_outlined),
+                ],
+              )),
+        ],
+      ),
     );
   }
 }
