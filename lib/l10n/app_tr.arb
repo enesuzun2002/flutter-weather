@@ -44,5 +44,9 @@
     "themeS": "Tema Ayarları",
     "sysTheme": "Sistem Teması",
     "darkTheme": "Karanlık Tema",
-    "lightTheme": "Aydınlık Tema"
+    "lightTheme": "Aydınlık Tema",
+    "cancelB": "İptal",
+    "okB": "Tamam",
+    "removeDesc": "Bu şehir için hava durumu verisini kaldırmak üzeresiniz:",
+    "removeConf": "Bu şehiri kaldırmak istediğinizden emin misiniz?"
 }

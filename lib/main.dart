@@ -44,7 +44,6 @@ class _MyAppState extends State<MyApp> {
     final themeProvider = Provider.of<ThemeManager>(context, listen: true);
     themeProvider.getUserTheme();
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeProvider.themeMode,

@@ -182,5 +182,21 @@
     "lightTheme": "Light Theme",
     "@lightTheme": {
         "description": "Dark theme text for dialog option."
+    },
+    "cancelB": "Cancel",
+    "@cancelB": {
+        "description": "Cancel text button text."
+    },
+    "okB": "Ok",
+    "@okB": {
+        "description": "Ok text button text."
+    },
+    "removeDesc": "You are about to remove weather data for",
+    "@removeDesc": {
+        "description": "Weather data remove desc text."
+    },
+    "removeConf": "Are you sure you want to remove this city?",
+    "@removeConf": {
+        "description": "Weather data remove text."
     }
 }

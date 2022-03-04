@@ -65,14 +65,40 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (MyApp.weatherList.isNotEmpty) {
-            MyApp.weatherList.removeLast();
-            wsf.updateCities(cw.weatherListCityNamesToList(MyApp.weatherList));
-            refresh();
+            weatherRemoveAlert(context);
           }
         },
         child: const Icon(Icons.remove_circle_rounded),
       ),
     );
+  }
+
+  Future<dynamic> weatherRemoveAlert(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0)),
+              title: Text(AppLocalizations.of(context)!.removeConf),
+              content: Text(
+                  "${AppLocalizations.of(context)!.removeDesc} ${cw.fixCityName(MyApp.weatherList.last)}"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(AppLocalizations.of(context)!.cancelB)),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      MyApp.weatherList.removeLast();
+                      wsf.updateCities(
+                          cw.weatherListCityNamesToList(MyApp.weatherList));
+                      refresh();
+                    },
+                    child: Text(AppLocalizations.of(context)!.okB))
+              ],
+            ));
   }
 
   Future<void> refresh() async {
