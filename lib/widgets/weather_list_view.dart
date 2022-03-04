@@ -56,7 +56,8 @@ class WeatherListView extends StatelessWidget {
     } else {
       if (MyApp.weatherList.isEmpty) {
         return Center(
-          child: Text(AppLocalizations.of(context)!.pAddCity),
+          child: Text(AppLocalizations.of(context)!.pAddCity,
+              style: Theme.of(context).textTheme.bodyLarge),
         );
       } else {
         return ListView.builder(
