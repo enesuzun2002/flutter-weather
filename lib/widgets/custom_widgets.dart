@@ -62,34 +62,6 @@ class CustomWidgets {
     return weatherData.cod;
   }
 
-  Padding getWeatherCard(BuildContext context, WeatherData weatherData) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-      child: Container(
-        height: 179.0,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: getColor(weatherData),
-            borderRadius: BorderRadius.circular(16.0)),
-        child: Padding(
-          padding: const EdgeInsets.all(28.0),
-          child: getWeatherCardInfo(context, weatherData),
-        ),
-      ),
-    );
-  }
-
-  Container getProgressIndicatorCard() {
-    return Container(
-      height: 150.0,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 153, 65, 6),
-          borderRadius: BorderRadius.circular(16.0)),
-      child: const Center(child: CircularProgressIndicator()),
-    );
-  }
-
   String fixCityName(WeatherData weatherData) {
     String name = "";
     if (weatherData.name.toString().contains("Province")) {
