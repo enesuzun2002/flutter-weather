@@ -126,6 +126,7 @@ class CustomWidgets {
     for (var element in MyApp.weatherList) {
       cities.add(element.name);
     }
+    cities.sort();
     return cities;
   }
 
