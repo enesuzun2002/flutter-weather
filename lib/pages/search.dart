@@ -27,7 +27,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    int weatherCod = 0;
+    var weatherCod;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -74,7 +74,7 @@ class _SearchState extends State<Search> {
                               await cw.getData(widget.city, widget.apiKey);
                           if (weatherCod == 401) {
                             invalidApiKeyAlert(context);
-                          } else if (weatherCod == 404) {
+                          } else if (weatherCod == "404") {
                             invalidLocationAlert(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

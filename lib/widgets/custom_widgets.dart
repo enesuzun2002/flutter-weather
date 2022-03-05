@@ -39,13 +39,13 @@ class CustomWidgets {
         ));
   }
 
-  Future<int> getData(String city, String apiKey) async {
+  Future<dynamic> getData(String city, String apiKey) async {
     WeatherData weatherData = WeatherData();
     WeatherApiClient client = WeatherApiClient();
     weatherData = await client.getWeatherData(city, apiKey);
     // Cod 404 is returned for wrong location name.
     // Cod 401 is returned for wrong api key.
-    if (weatherData.cod == 404) {
+    if (weatherData.cod == "404") {
       return weatherData.cod;
     } else if (weatherData.cod == 401) {
       return weatherData.cod;
