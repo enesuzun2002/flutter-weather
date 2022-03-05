@@ -11,6 +11,8 @@ class WeatherSharedPrefs {
 
   final String _keyFirstInstall = "firstInstall";
 
+  final String _keyApiKey = "apiKey";
+
   void updateCities(List<String> cities) async {
     SharedPreferences prefs = await _weatherSharedPrefs;
     prefs.setStringList(_keyCities, cities);
@@ -24,6 +26,7 @@ class WeatherSharedPrefs {
   void clearSharedPrefs() async {
     SharedPreferences prefs = await _weatherSharedPrefs;
     prefs.remove(_keyCities);
+    prefs.remove(_keyApiKey);
   }
 
   void updateTheme(String theme) async {
@@ -44,5 +47,15 @@ class WeatherSharedPrefs {
   Future<bool> getFirstInstall() async {
     SharedPreferences prefs = await _weatherSharedPrefs;
     return prefs.getBool(_keyFirstInstall) ?? true;
+  }
+
+  void updateApiKey(String apiKey) async {
+    SharedPreferences prefs = await _weatherSharedPrefs;
+    prefs.setString(_keyApiKey, apiKey);
+  }
+
+  Future<String> getApiKey() async {
+    SharedPreferences prefs = await _weatherSharedPrefs;
+    return prefs.getString(_keyApiKey) ?? "";
   }
 }

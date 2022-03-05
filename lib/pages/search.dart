@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Search extends StatefulWidget {
   Search({Key? key}) : super(key: key);
   String city = "";
+  String apiKey = "";
 
   @override
   _SearchState createState() => _SearchState();
@@ -19,8 +20,14 @@ class _SearchState extends State<Search> {
   WeatherSharedPrefs wsf = WeatherSharedPrefs();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
+    int weatherCod = 0;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -56,9 +63,18 @@ class _SearchState extends State<Search> {
                   height: 45.0,
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        widget.apiKey = await wsf.getApiKey();
                         if (_formKey.currentState!.validate()) {
-                          cw.getData(widget.city);
+                          if (widget.apiKey == "") {
+                            apiKeyAlert(context);
+                            return;
+                          }
+                          weatherCod =
+                              await cw.getData(widget.city, widget.apiKey);
+                          if (weatherCod == 401) {
+                            invalidApiKeyAlert(context);
+                          }
                           _cityEditingController.clear();
                           wsf.updateCities(
                               cw.weatherListCityNamesToList(MyApp.weatherList));
@@ -72,5 +88,41 @@ class _SearchState extends State<Search> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> invalidApiKeyAlert(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0)),
+              title: Text(AppLocalizations.of(context)!.apiKeyInvalidD),
+              content: Text(AppLocalizations.of(context)!.apiKeyInvalidS),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(AppLocalizations.of(context)!.okB))
+              ],
+            ));
+  }
+
+  Future<dynamic> apiKeyAlert(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0)),
+              title: Text(AppLocalizations.of(context)!.apiKeyAlertT),
+              content: Text(AppLocalizations.of(context)!.apiKeyAlertD),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(AppLocalizations.of(context)!.okB))
+              ],
+            ));
   }
 }

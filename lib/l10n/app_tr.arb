@@ -50,5 +50,15 @@
     "removeConf": "Bu şehiri kaldırmak istediğinizden emin misiniz?",
     "firstLaunchLogin": "İlk kez giriş tespit edildi!",
     "firstLaunchAlert": "Ayarlar'dan API keyinizi kaydetmeyi unutmayın.",
-    "firstLaunchRegister": "Yeni hesap tespit edildi!"
+    "firstLaunchRegister": "Yeni hesap tespit edildi!",
+    "apiKeyAlertT": "Api anahtarı bulunamadı!",
+    "apiKeyAlertD": "Lütfen api anahtarını ayarlara gidip kaydedin.",
+    "apiKeySH": "Api Anahtarı",
+    "apiKeySD": "Api anahtarınızı buradan ayarlayın.",
+    "apiKeyHint": "Api anahtarınızı girin...",
+    "apiKeyEmpty": "Lütfen api anahtarınızı girin",
+    "apiKeyInvalid": "Lütfen geçerli bir api anahtarı girin",
+    "apiKeyHelp": "Api anahtarınızı OpenWeatherMap'den alın",
+    "apiKeyInvalidS": "Lütfen ayarlardan geçerli bir api key ayarlayın.",
+    "apiKeyInvalidD": "Geçersiz api anahtarı tespit edildi!"
 }

@@ -7,7 +7,10 @@ class ReloadWeatherData extends ChangeNotifier {
   Future<void> weatherDataReload() async {
     for (var element in MyApp.weatherList) {
       CustomWidgets cw = CustomWidgets();
-      await cw.getData(element.name);
+      WeatherSharedPrefs wsf = WeatherSharedPrefs();
+      if (await wsf.getApiKey() != "") {
+        await cw.getData(element.name, await wsf.getApiKey());
+      }
     }
     notifyListeners();
   }
@@ -16,7 +19,9 @@ class ReloadWeatherData extends ChangeNotifier {
     CustomWidgets cw = CustomWidgets();
     WeatherSharedPrefs wsf = WeatherSharedPrefs();
     for (var element in await wsf.getCities()) {
-      await cw.getData(element);
+      if (await wsf.getApiKey() != "") {
+        await cw.getData(element, await wsf.getApiKey());
+      }
     }
     notifyListeners();
   }

@@ -39,20 +39,27 @@ class CustomWidgets {
         ));
   }
 
-  Future<void> getData(String city) async {
+  Future<int> getData(String city, String apiKey) async {
     WeatherData weatherData = WeatherData();
     WeatherApiClient client = WeatherApiClient();
-    weatherData = await client.getWeatherData(city);
-    if (weatherData.cod != "404") {
+    weatherData = await client.getWeatherData(city, apiKey);
+    // Cod 404 is returned for wrong location name.
+    // Cod 401 is returned for wrong api key.
+    if (weatherData.cod == 404) {
+      return weatherData.cod;
+    } else if (weatherData.cod == 401) {
+      return weatherData.cod;
+    } else {
       for (var element in MyApp.weatherList) {
         if (element.name == weatherData.name) {
           MyApp.weatherList.remove(element);
           MyApp.weatherList.add(weatherData);
-          return;
+          return weatherData.cod;
         }
       }
       MyApp.weatherList.add(weatherData);
     }
+    return weatherData.cod;
   }
 
   Padding getWeatherCard(BuildContext context, WeatherData weatherData) {

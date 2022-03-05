@@ -206,5 +206,45 @@
     "firstLaunchRegister": "New account detected!",
     "@firstLaunchRegister": {
         "description": "Alert header if the app is installed and registered for the first time."
+    },
+    "apiKeyAlertT": "Api key is missing!",
+    "@apiKeyAlertT": {
+        "description": "Alert header if the api key is missing."
+    },
+    "apiKeyAlertD": "Please set api key under settings.",
+    "@apiKeyAlertD": {
+        "description": "Alert content if the api key is missing."
+    },
+    "apiKeySH": "Api Key",
+    "@apiKeySH": {
+        "description": "Api Key settings text button and dialog header text."
+    },
+    "apiKeySD": "Set your api key here.",
+    "@apiKeySD": {
+        "description": "Api Key settings description text."
+    },
+    "apiKeyHint": "Write your api key...",
+    "@apiKeyHint": {
+        "description": "Api Key input form field hint."
+    },
+    "apiKeyEmpty": "Please write your api key",
+    "@apiKeyEmpty": {
+        "description": "Api Key input form field empty error text."
+    },
+    "apiKeyInvalid": "Please enter a valid api key",
+    "@apiKeyInvalid": {
+        "description": "Api Key input form field invalid error text."
+    },
+    "apiKeyHelp": "Get your api key from OpenWeatherMap",
+    "@apiKeyHelp": {
+        "description": "Api Key dialog helper text."
+    },
+    "apiKeyInvalidS": "Please set a valid api key under settings.",
+    "@apiKeyInvalidS": {
+        "description": "Alert content if the api key is invalid."
+    },
+    "apiKeyInvalidD": "Invalid api key detected!",
+    "@apiKeyInvalidD": {
+        "description": "Alert header if the api key is invalid."
     }
 }
