@@ -74,10 +74,18 @@ class _SearchState extends State<Search> {
                               await cw.getData(widget.city, widget.apiKey);
                           if (weatherCod == 401) {
                             invalidApiKeyAlert(context);
+                          } else if (weatherCod == 404) {
+                            invalidLocationAlert(context);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              duration: const Duration(seconds: 1),
+                              content: Text(
+                                  AppLocalizations.of(context)!.locationScss),
+                            ));
+                            _cityEditingController.clear();
+                            wsf.updateCities(cw
+                                .weatherListCityNamesToList(MyApp.weatherList));
                           }
-                          _cityEditingController.clear();
-                          wsf.updateCities(
-                              cw.weatherListCityNamesToList(MyApp.weatherList));
                         }
                       },
                       child: Text(AppLocalizations.of(context)!.addCity)),
@@ -98,6 +106,24 @@ class _SearchState extends State<Search> {
                   borderRadius: BorderRadius.circular(12.0)),
               title: Text(AppLocalizations.of(context)!.apiKeyInvalidD),
               content: Text(AppLocalizations.of(context)!.apiKeyInvalidS),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(AppLocalizations.of(context)!.okB))
+              ],
+            ));
+  }
+
+  Future<dynamic> invalidLocationAlert(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0)),
+              title: Text(AppLocalizations.of(context)!.locationInvalidD),
+              content: Text(AppLocalizations.of(context)!.locationInvalidS),
               actions: [
                 TextButton(
                     onPressed: () {

@@ -60,5 +60,8 @@
     "apiKeyInvalid": "Lütfen geçerli bir api anahtarı girin",
     "apiKeyHelp": "Api anahtarınızı OpenWeatherMap'den alın",
     "apiKeyInvalidS": "Lütfen ayarlardan geçerli bir api key ayarlayın.",
-    "apiKeyInvalidD": "Geçersiz api anahtarı tespit edildi!"
+    "apiKeyInvalidD": "Geçersiz api anahtarı tespit edildi!",
+    "locationInvalidD": "Geçersiz konum tespit edildi!",
+    "locationInvalidS": "Lütfen konumunuzun adını doğru girdiğinizden emin olun",
+    "locationScss": "Konum başarıyla eklendi."
 }

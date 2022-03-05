@@ -246,5 +246,17 @@
     "apiKeyInvalidD": "Invalid api key detected!",
     "@apiKeyInvalidD": {
         "description": "Alert header if the api key is invalid."
+    },
+    "locationInvalidD": "Invalid location detected!",
+    "@locationInvalidD": {
+        "description": "Alert header if the location is invalid."
+    },
+    "locationInvalidS": "Please make sure you write location name correctly",
+    "@locationInvalidS": {
+        "description": "Alert content if the location is invalid."
+    },
+    "locationScss": "Location successfully added.",
+    "@locationScss": {
+        "description": "Scaffold content if the location is successfully added."
     }
 }
