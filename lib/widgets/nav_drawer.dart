@@ -35,7 +35,8 @@ class _NavDrawerState extends State<NavDrawer> {
                   }
                 },
                 child: Container(
-                    padding: const EdgeInsets.only(top: 32.0),
+                    padding: EdgeInsets.only(
+                        top: (MediaQuery.of(context).viewPadding.top) + 10),
                     child: Column(
                       children: [
                         CircleAvatar(

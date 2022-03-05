@@ -152,7 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         destinations: [
           NavigationDestination(
-              icon: const Icon(Icons.home),
+              icon: pageIndex == 0
+                  ? const Icon(Icons.home)
+                  : const Icon(Icons.home_outlined),
               label: AppLocalizations.of(context)!.home),
           NavigationDestination(
               icon: const Icon(Icons.search),
