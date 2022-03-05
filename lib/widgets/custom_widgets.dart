@@ -109,7 +109,7 @@ class CustomWidgets {
             Image.network(
                 "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),
             Text(
-              "${weatherData.main!.temp.floor()} C\n${getWeatherDescription(context, weatherData.weather[0].main)}",
+              "${weatherData.main!.temp.floor()} °C\n${getWeatherDescription(context, weatherData.weather[0].main)}",
               style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,

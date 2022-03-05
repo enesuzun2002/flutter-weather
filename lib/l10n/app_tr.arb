@@ -63,5 +63,15 @@
     "apiKeyInvalidD": "Geçersiz api anahtarı tespit edildi!",
     "locationInvalidD": "Geçersiz konum tespit edildi!",
     "locationInvalidS": "Lütfen konumunuzun adını doğru girdiğinizden emin olun",
-    "locationScss": "Konum başarıyla eklendi."
+    "locationScss": "Konum başarıyla eklendi.",
+    "general": "Genel",
+    "temp": "Sıcaklık",
+    "feelsL": "Hissedilen",
+    "humidity": "Nem",
+    "windS": "Rüzgar Hızı",
+    "windD": "Rüzgar Açısı",
+    "cloudNs": "Bulutluluk",
+    "coords": "Kordinatlar",
+    "long": "Boylam",
+    "lat": "Enlem"
 }

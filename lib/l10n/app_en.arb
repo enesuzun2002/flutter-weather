@@ -135,7 +135,7 @@
     "@clear": {
         "description": "Clear weather condition."
     },
-    "unknownW": "Unknown weather condition",
+    "unknownW": "Unknown\nweather\ncondition",
     "@clear": {
         "description": "Unknown weather condition."
     },
@@ -258,5 +258,45 @@
     "locationScss": "Location successfully added.",
     "@locationScss": {
         "description": "Scaffold content if the location is successfully added."
+    },
+    "general": "General",
+    "@general": {
+        "description": ""
+    },
+    "temp": "Temperature",
+    "@temp": {
+        "description": ""
+    },
+    "feelsL": "Feels Like",
+    "@feelsL": {
+        "description": ""
+    },
+    "humidity": "Humidity",
+    "@humidity": {
+        "description": ""
+    },
+    "windS": "Wind Speed",
+    "@windS": {
+        "description": ""
+    },
+    "windD": "Wind Degree",
+    "@windD": {
+        "description": ""
+    },
+    "cloudNs": "Cloudiness",
+    "@cloudNs": {
+        "description": ""
+    },
+    "coords": "Coords",
+    "@coords": {
+        "description": ""
+    },
+    "long": "Longitude",
+    "@long": {
+        "description": ""
+    },
+    "lat": "Latitude",
+    "@lat": {
+        "description": ""
     }
 }

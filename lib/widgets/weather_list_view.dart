@@ -82,6 +82,7 @@ class _WeatherListViewState extends State<WeatherListView> {
   InkWell getWeatherCard(BuildContext context, WeatherData weatherData) {
     CustomWidgets cw = CustomWidgets();
     return InkWell(
+      onTap: () => weatherCardExpanded(context, weatherData),
       onLongPress: () => weatherRemoveAlert(context, weatherData),
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
@@ -98,6 +99,106 @@ class _WeatherListViewState extends State<WeatherListView> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> weatherCardExpanded(
+      BuildContext context, WeatherData weatherData) {
+    CustomWidgets cw = CustomWidgets();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0)),
+            title: Text(
+              "${cw.fixCityName(weatherData)}, ${weatherData.sys.country}",
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 8.0),
+                        Text(
+                          AppLocalizations.of(context)!.general,
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                        const SizedBox(height: 16.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.temp),
+                            Text("${weatherData.main!.temp.floor()} °C"),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.feelsL),
+                            Text("${weatherData.main!.feelsLike} °C"),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.humidity),
+                            Text("${weatherData.main!.humidity}%"),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.windS),
+                            Text("${weatherData.wind!.speed} m/s"),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.windD),
+                            Text("${weatherData.wind!.deg} °"),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.cloudNs),
+                            Text("${weatherData.clouds!.all}%"),
+                          ],
+                        ),
+                        const SizedBox(height: 16.0),
+                        Text(AppLocalizations.of(context)!.coords,
+                            style: TextStyle(fontSize: 20.0)),
+                        const SizedBox(height: 16.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.long),
+                            Text("${weatherData.coord!.lon}"),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.lat),
+                            Text("${weatherData.coord!.lat}"),
+                          ],
+                        ),
+                      ]),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   Future<dynamic> weatherRemoveAlert(
