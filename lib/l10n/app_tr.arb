@@ -58,7 +58,7 @@
     "apiKeyHint": "Api anahtarınızı girin...",
     "apiKeyEmpty": "Lütfen api anahtarınızı girin",
     "apiKeyInvalid": "Lütfen geçerli bir api anahtarı girin",
-    "apiKeyHelp": "Api anahtarınızı OpenWeatherMap'den alın",
+    "apiKeyHelp": "* Api anahtarınızı OpenWeatherMap'den alın",
     "apiKeyInvalidS": "Lütfen ayarlardan geçerli bir api key ayarlayın.",
     "apiKeyInvalidD": "Geçersiz api anahtarı tespit edildi!",
     "locationInvalidD": "Geçersiz konum tespit edildi!",
@@ -73,5 +73,10 @@
     "cloudNs": "Bulutluluk",
     "coords": "Kordinatlar",
     "long": "Boylam",
-    "lat": "Enlem"
+    "lat": "Enlem",
+    "metricB": "Metrik\nBirimler\n(° C)",
+    "imperialB": "Emperyal\nBirimler\n(° F)",
+    "unitSH": "Birim Ayarları",
+    "metricD": "Metrik Birimler",
+    "imperialD": "Emperyal Birimler"
 }

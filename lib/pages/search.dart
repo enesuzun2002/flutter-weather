@@ -8,6 +8,7 @@ class Search extends StatefulWidget {
   Search({Key? key}) : super(key: key);
   String city = "";
   String apiKey = "";
+  String unitS = "";
 
   @override
   _SearchState createState() => _SearchState();
@@ -65,13 +66,14 @@ class _SearchState extends State<Search> {
                   child: ElevatedButton(
                       onPressed: () async {
                         widget.apiKey = await wsf.getApiKey();
+                        widget.unitS = await wsf.getUnitS();
                         if (_formKey.currentState!.validate()) {
                           if (widget.apiKey == "") {
                             apiKeyAlert(context);
                             return;
                           }
-                          weatherCod =
-                              await cw.getData(widget.city, widget.apiKey);
+                          weatherCod = await cw.getData(
+                              widget.city, widget.apiKey, widget.unitS);
                           if (weatherCod == 401) {
                             invalidApiKeyAlert(context);
                           } else if (weatherCod == "404") {

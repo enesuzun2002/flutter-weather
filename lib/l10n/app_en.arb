@@ -235,7 +235,7 @@
     "@apiKeyInvalid": {
         "description": "Api Key input form field invalid error text."
     },
-    "apiKeyHelp": "Get your api key from OpenWeatherMap",
+    "apiKeyHelp": "* Get your api key from OpenWeatherMap",
     "@apiKeyHelp": {
         "description": "Api Key dialog helper text."
     },
@@ -297,6 +297,26 @@
     },
     "lat": "Latitude",
     "@lat": {
+        "description": ""
+    },
+    "metricB": "Metric\nUnits\n(° C)",
+    "@metricB": {
+        "description": ""
+    },
+    "imperialB": "Imperial\nUnits\n(° F)",
+    "@imperialB": {
+        "description": ""
+    },
+    "unitSH": "Unit Settings",
+    "@unitSH": {
+        "description": ""
+    },
+    "metricD": "Metric Units",
+    "@metricD": {
+        "description": ""
+    },
+    "imperialD": "Imperial Units",
+    "@imperialD": {
         "description": ""
     }
 }

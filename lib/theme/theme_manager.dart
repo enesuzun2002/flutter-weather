@@ -20,7 +20,6 @@ class ThemeManager with ChangeNotifier {
   }
 
   toogleTheme(ThemeMode theme) {
-    print(theme.toString());
     _themeMode = theme;
     notifyListeners();
   }

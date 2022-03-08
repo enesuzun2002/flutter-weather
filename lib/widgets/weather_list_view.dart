@@ -104,6 +104,7 @@ class _WeatherListViewState extends State<WeatherListView> {
   Future<dynamic> weatherCardExpanded(
       BuildContext context, WeatherData weatherData) {
     CustomWidgets cw = CustomWidgets();
+    final provider = Provider.of<WeatherSharedPrefs>(context, listen: false);
     return showDialog(
         context: context,
         builder: (context) {
@@ -131,7 +132,9 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.temp),
-                            Text("${weatherData.main!.temp.floor()} °C"),
+                            provider.unitS == "metric"
+                                ? Text("${weatherData.main!.temp.floor()} °C")
+                                : Text("${weatherData.main!.temp.floor()} °F"),
                           ],
                         ),
                         const SizedBox(height: 8.0),
@@ -139,7 +142,9 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.feelsL),
-                            Text("${weatherData.main!.feelsLike} °C"),
+                            provider.unitS == "metric"
+                                ? Text("${weatherData.main!.feelsLike} °C")
+                                : Text("${weatherData.main!.feelsLike} °F"),
                           ],
                         ),
                         const SizedBox(height: 8.0),
@@ -155,7 +160,9 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.windS),
-                            Text("${weatherData.wind!.speed} m/s"),
+                            provider.unitS == "metric"
+                                ? Text("${weatherData.wind!.speed} m/s")
+                                : Text("${weatherData.wind!.speed} m/h"),
                           ],
                         ),
                         const SizedBox(height: 8.0),
