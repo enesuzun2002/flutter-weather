@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class WeatherSharedPrefs extends ChangeNotifier {
+class WeatherSharedPrefs {
   final Future<SharedPreferences> _weatherSharedPrefs =
       SharedPreferences.getInstance();
   final String _keyCities = "cities";
@@ -13,10 +12,6 @@ class WeatherSharedPrefs extends ChangeNotifier {
   final String _keyApiKey = "apiKey";
 
   final String _keyUnitS = "unitS";
-
-  String _unitS = "metric";
-
-  get unitS => _unitS;
 
   void updateCities(List<String> cities) async {
     SharedPreferences prefs = await _weatherSharedPrefs;
@@ -66,8 +61,6 @@ class WeatherSharedPrefs extends ChangeNotifier {
 
   void updateUnitS(String unitS) async {
     SharedPreferences prefs = await _weatherSharedPrefs;
-    _unitS = unitS;
-    notifyListeners();
     prefs.setString(_keyUnitS, unitS);
   }
 

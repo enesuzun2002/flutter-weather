@@ -17,7 +17,6 @@ class WeatherListView extends StatefulWidget {
 class _WeatherListViewState extends State<WeatherListView> {
   @override
   Widget build(BuildContext context) {
-    CustomWidgets cw = CustomWidgets();
     final reloadProvider =
         Provider.of<ReloadWeatherData>(context, listen: true);
     if (MyApp.firstRun) {
@@ -104,7 +103,6 @@ class _WeatherListViewState extends State<WeatherListView> {
   Future<dynamic> weatherCardExpanded(
       BuildContext context, WeatherData weatherData) {
     CustomWidgets cw = CustomWidgets();
-    final provider = Provider.of<WeatherSharedPrefs>(context, listen: false);
     return showDialog(
         context: context,
         builder: (context) {
@@ -125,14 +123,14 @@ class _WeatherListViewState extends State<WeatherListView> {
                         const SizedBox(height: 8.0),
                         Text(
                           AppLocalizations.of(context)!.general,
-                          style: TextStyle(fontSize: 20.0),
+                          style: const TextStyle(fontSize: 20.0),
                         ),
                         const SizedBox(height: 16.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.temp),
-                            provider.unitS == "metric"
+                            MyApp.unitS == "metric"
                                 ? Text("${weatherData.main!.temp.floor()} °C")
                                 : Text("${weatherData.main!.temp.floor()} °F"),
                           ],
@@ -142,7 +140,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.feelsL),
-                            provider.unitS == "metric"
+                            MyApp.unitS == "metric"
                                 ? Text("${weatherData.main!.feelsLike} °C")
                                 : Text("${weatherData.main!.feelsLike} °F"),
                           ],
@@ -160,7 +158,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.windS),
-                            provider.unitS == "metric"
+                            MyApp.unitS == "metric"
                                 ? Text("${weatherData.wind!.speed} m/s")
                                 : Text("${weatherData.wind!.speed} m/h"),
                           ],
@@ -183,7 +181,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                         ),
                         const SizedBox(height: 16.0),
                         Text(AppLocalizations.of(context)!.coords,
-                            style: TextStyle(fontSize: 20.0)),
+                            style: const TextStyle(fontSize: 20.0)),
                         const SizedBox(height: 16.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

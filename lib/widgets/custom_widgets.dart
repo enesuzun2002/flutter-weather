@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:weather/main.dart';
 import 'package:weather/services/weather_api_client.dart';
-import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/weather/weather_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -97,7 +95,6 @@ class CustomWidgets {
 
   Column getWeatherCardInfo(BuildContext context, WeatherData weatherData) {
     String name = fixCityName(weatherData);
-    final provider = Provider.of<WeatherSharedPrefs>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -111,7 +108,7 @@ class CustomWidgets {
           children: [
             Image.network(
                 "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),
-            provider.unitS == "metric"
+            MyApp.unitS == "metric"
                 ? Text(
                     "${weatherData.main!.temp.floor()} °C\n${getWeatherDescription(context, weatherData.weather[0].main)}",
                     style: const TextStyle(

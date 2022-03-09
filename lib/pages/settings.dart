@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/services/reload_weather_data.dart';
+import 'package:weather/main.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/theme/theme_manager.dart';
 import 'package:weather/widgets/custom_widgets.dart';
@@ -132,7 +132,6 @@ class _SettingsState extends State<Settings> {
   }
 
   Padding unitSettingDialog(BuildContext context) {
-    final provider = Provider.of<WeatherSharedPrefs>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: TextButton(
@@ -151,12 +150,13 @@ class _SettingsState extends State<Settings> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        decoration: provider.unitS == "metric"
+                        decoration: MyApp.unitS == "metric"
                             ? activeBox(context, true)
                             : activeBox(context, false),
                         child: SimpleDialogOption(
                           onPressed: () {
-                            provider.updateUnitS("metric");
+                            wsf.updateUnitS("metric");
+                            MyApp.unitS = "metric";
                           },
                           child: Row(
                             children: [
@@ -174,12 +174,13 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                       Container(
-                        decoration: provider.unitS == "imperial"
+                        decoration: MyApp.unitS == "imperial"
                             ? activeBox(context, true)
                             : activeBox(context, false),
                         child: SimpleDialogOption(
                           onPressed: () {
-                            provider.updateUnitS("imperial");
+                            wsf.updateUnitS("imperial");
+                            MyApp.unitS = "imperial";
                           },
                           child: Column(
                             children: [
@@ -206,7 +207,7 @@ class _SettingsState extends State<Settings> {
                 Text(AppLocalizations.of(context)!.unitSH,
                     style: Theme.of(context).textTheme.subtitle1),
                 const SizedBox(height: 5.0),
-                provider.unitS == "metric"
+                MyApp.unitS == "metric"
                     ? Text(AppLocalizations.of(context)!.metricD,
                         style: Theme.of(context).textTheme.bodySmall)
                     : Text(AppLocalizations.of(context)!.imperialD,

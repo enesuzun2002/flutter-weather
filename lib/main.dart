@@ -8,7 +8,6 @@ import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/services/reload_weather_data.dart';
-import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/theme/theme_constants.dart';
 import 'package:weather/theme/theme_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,7 +22,6 @@ void main() async {
     ChangeNotifierProvider(create: (_) => FirebaseFuncsProvider()),
     ChangeNotifierProvider(create: (_) => ThemeManager()),
     ChangeNotifierProvider(create: (_) => ReloadWeatherData()),
-    ChangeNotifierProvider(create: (_) => WeatherSharedPrefs()),
   ], child: const MyApp()));
 }
 
@@ -36,6 +34,7 @@ class MyApp extends StatefulWidget {
   static bool firstRun = true;
   static bool firstInstall = true;
   static int? selectedIndex;
+  static String unitS = "";
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -43,14 +42,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeManager>(context, listen: true);
     themeProvider.getUserTheme();
+    final reloadWeatherDataProvider =
+        Provider.of<ReloadWeatherData>(context, listen: true);
+    reloadWeatherDataProvider.weatherUnitSReload();
     return MaterialApp(
       theme: lightTheme,
       darkTheme: darkTheme,

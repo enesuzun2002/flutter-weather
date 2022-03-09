@@ -5,9 +5,6 @@ import 'package:weather/widgets/custom_widgets.dart';
 
 class ReloadWeatherData extends ChangeNotifier {
   String apiKey = "";
-  String _unitS = "";
-
-  get unitS => _unitS;
   Future<void> weatherDataReload() async {
     for (var element in MyApp.weatherList) {
       CustomWidgets cw = CustomWidgets();
@@ -28,6 +25,12 @@ class ReloadWeatherData extends ChangeNotifier {
         await cw.getData(element, await wsf.getApiKey(), await wsf.getUnitS());
       }
     }
+    notifyListeners();
+  }
+
+  Future<void> weatherUnitSReload() async {
+    WeatherSharedPrefs wsf = WeatherSharedPrefs();
+    MyApp.unitS = await wsf.getUnitS();
     notifyListeners();
   }
 }
