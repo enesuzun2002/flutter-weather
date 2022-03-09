@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
-  colorSchemeSeed: Colors.deepOrange,
+  colorSchemeSeed: Colors.amber,
   useMaterial3: true,
   brightness: Brightness.light,
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -15,13 +15,13 @@ ThemeData lightTheme = ThemeData(
     border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide.none),
     filled: true,
-    fillColor: ColorScheme.fromSeed(seedColor: Colors.deepOrange)
+    fillColor: ColorScheme.fromSeed(seedColor: Colors.amber)
         .primaryContainer
         .withOpacity(0.3),
   ),
 );
 ThemeData darkTheme = ThemeData(
-  colorSchemeSeed: Colors.deepOrange,
+  colorSchemeSeed: Colors.amber,
   useMaterial3: true,
   brightness: Brightness.dark,
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -35,7 +35,7 @@ ThemeData darkTheme = ThemeData(
     border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide.none),
     filled: true,
-    fillColor: ColorScheme.fromSeed(seedColor: Colors.deepOrange)
+    fillColor: ColorScheme.fromSeed(seedColor: Colors.amber)
         .primaryContainer
         .withOpacity(0.05),
   ),

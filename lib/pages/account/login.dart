@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/main.dart';
@@ -23,6 +25,7 @@ class _LoginState extends State<Login> {
   String email = "";
   String password = "";
   final _formKey = GlobalKey<FormState>();
+  final _emailFieldKey = GlobalKey<FormFieldState<String>>();
   WeatherSharedPrefs wsf = WeatherSharedPrefs();
   @override
   Widget build(BuildContext context) {
@@ -69,6 +72,7 @@ class _LoginState extends State<Login> {
           children: [
             TextFormField(
               keyboardType: TextInputType.emailAddress,
+              key: _emailFieldKey,
               autovalidateMode: AutovalidateMode.disabled,
               decoration: InputDecoration(
                 label: Text(AppLocalizations.of(context)!.emailHint),
@@ -159,12 +163,21 @@ class _LoginState extends State<Login> {
       width: double.infinity,
       child: ElevatedButton(
           onPressed: () {
-            final provider =
-                Provider.of<FirebaseFuncsProvider>(context, listen: false);
-            provider.firebaseForgotPass(email);
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                duration: const Duration(seconds: 1),
-                content: Text(AppLocalizations.of(context)!.passResetSnack)));
+            if (_emailFieldKey.currentState!.validate()) {
+              final provider =
+                  Provider.of<FirebaseFuncsProvider>(context, listen: false);
+              provider.firebaseForgotPass(email);
+              if (!MyApp.isShown) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    duration: const Duration(seconds: 1),
+                    content:
+                        Text(AppLocalizations.of(context)!.passResetSnack)));
+                MyApp.isShown = true;
+                Timer(const Duration(seconds: 30), () {
+                  MyApp.isShown = false;
+                });
+              }
+            }
           },
           child: Text(AppLocalizations.of(context)!.passResetB)),
     );
