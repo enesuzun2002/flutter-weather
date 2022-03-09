@@ -91,7 +91,7 @@ class _NavDrawerState extends State<NavDrawer> {
                       }
                     },
                   ),
-                  ListTile(
+                  /* ListTile(
                     leading: const Icon(Icons.info_outlined),
                     title: Text(AppLocalizations.of(context)!.about),
                     selected: MyApp.selectedIndex == 2,
@@ -103,7 +103,7 @@ class _NavDrawerState extends State<NavDrawer> {
                         setState(() {});
                       }
                     },
-                  ),
+                  ), */
                   ListTile(
                     leading: const Icon(Icons.logout_outlined),
                     title: Text(AppLocalizations.of(context)!.logOut),
