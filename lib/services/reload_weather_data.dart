@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:weather/main.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
-import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/variables.dart';
+import 'package:weather/widgets/helper_widgets.dart';
 
 class ReloadWeatherData extends ChangeNotifier {
   String apiKey = "";
   Future<void> weatherDataReload() async {
-    for (var element in MyApp.weatherList) {
-      CustomWidgets cw = CustomWidgets();
+    for (var element in Variables.weatherList) {
+      HelperWidgets cw = HelperWidgets();
       WeatherSharedPrefs wsf = WeatherSharedPrefs();
       if (await wsf.getApiKey() != "") {
         await cw.getData(
@@ -18,7 +18,7 @@ class ReloadWeatherData extends ChangeNotifier {
   }
 
   Future<void> weatherDataReloadSharedPrefs() async {
-    CustomWidgets cw = CustomWidgets();
+    HelperWidgets cw = HelperWidgets();
     WeatherSharedPrefs wsf = WeatherSharedPrefs();
     for (var element in await wsf.getCities()) {
       if (await wsf.getApiKey() != "") {
@@ -30,7 +30,7 @@ class ReloadWeatherData extends ChangeNotifier {
 
   Future<void> weatherUnitSReload() async {
     WeatherSharedPrefs wsf = WeatherSharedPrefs();
-    MyApp.unitS = await wsf.getUnitS();
+    Variables.unitS = await wsf.getUnitS();
     notifyListeners();
   }
 }

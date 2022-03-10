@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:weather/main.dart';
 import 'package:weather/services/weather_api_client.dart';
+import 'package:weather/variables.dart';
 import 'package:weather/weather/weather_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CustomWidgets {
+class HelperWidgets {
   Color getColor(WeatherData weatherData) {
     switch (weatherData.weather[0].main) {
       case "Clouds":
@@ -24,10 +24,6 @@ class CustomWidgets {
       default:
         return const Color.fromRGBO(51, 153, 255, 100);
     }
-  }
-
-  Icon buildNavIcon(IconData iconData, bool active) {
-    return Icon(iconData, size: 20.0);
   }
 
   AppBar getAppBar(String header) {
@@ -50,14 +46,14 @@ class CustomWidgets {
     } else if (weatherData.cod == 401) {
       return weatherData.cod;
     } else {
-      for (var element in MyApp.weatherList) {
+      for (var element in Variables.weatherList) {
         if (element.name == weatherData.name) {
-          MyApp.weatherList.remove(element);
-          MyApp.weatherList.add(weatherData);
+          Variables.weatherList.remove(element);
+          Variables.weatherList.add(weatherData);
           return weatherData.cod;
         }
       }
-      MyApp.weatherList.add(weatherData);
+      Variables.weatherList.add(weatherData);
     }
     return weatherData.cod;
   }
@@ -108,7 +104,7 @@ class CustomWidgets {
           children: [
             Image.network(
                 "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),
-            MyApp.unitS == "metric"
+            Variables.unitS == "metric"
                 ? Text(
                     "${weatherData.main!.temp.floor()} °C\n${getWeatherDescription(context, weatherData.weather[0].main)}",
                     style: const TextStyle(
@@ -131,7 +127,7 @@ class CustomWidgets {
 
   List<String> weatherListCityNamesToList(List<dynamic> weatherList) {
     List<String> cities = <String>[];
-    for (var element in MyApp.weatherList) {
+    for (var element in Variables.weatherList) {
       cities.add(element.name);
     }
     cities.sort();
@@ -151,4 +147,18 @@ class CustomWidgets {
 
   final RegExp emailRegex = RegExp(
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+
+  BoxDecoration activeBox(BuildContext context, bool isActive) {
+    if (isActive) {
+      return BoxDecoration(
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          border: Border.all(
+              color: Theme.of(context).colorScheme.primary, width: 2.5),
+          borderRadius: BorderRadius.circular(10.0));
+    }
+    return BoxDecoration(
+        border: Border.all(
+            color: Theme.of(context).colorScheme.background.withOpacity(0),
+            width: 2.5));
+  }
 }

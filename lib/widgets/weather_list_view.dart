@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/main.dart';
 import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
+import 'package:weather/variables.dart';
 import 'package:weather/weather/weather_data.dart';
-import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/widgets/helper_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WeatherListView extends StatefulWidget {
@@ -19,13 +19,13 @@ class _WeatherListViewState extends State<WeatherListView> {
   Widget build(BuildContext context) {
     final reloadProvider =
         Provider.of<ReloadWeatherData>(context, listen: true);
-    if (MyApp.firstRun) {
+    if (Variables.firstRun) {
       return FutureBuilder(
         future: reloadProvider.weatherDataReloadSharedPrefs(),
         builder: (context, snapshot) {
-          MyApp.firstRun = false;
+          Variables.firstRun = false;
           if (snapshot.connectionState == ConnectionState.done) {
-            if (MyApp.weatherList.isEmpty) {
+            if (Variables.weatherList.isEmpty) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
@@ -40,12 +40,12 @@ class _WeatherListViewState extends State<WeatherListView> {
               return ListView.separated(
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 16.0),
-                itemCount: MyApp.weatherList.length,
+                itemCount: Variables.weatherList.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: getWeatherCard(
-                        context, MyApp.weatherList.elementAt(index)),
+                        context, Variables.weatherList.elementAt(index)),
                   );
                 },
               );
@@ -58,19 +58,19 @@ class _WeatherListViewState extends State<WeatherListView> {
         },
       );
     } else {
-      if (MyApp.weatherList.isEmpty) {
+      if (Variables.weatherList.isEmpty) {
         return Center(
           child: Text(AppLocalizations.of(context)!.pAddCity,
               style: Theme.of(context).textTheme.bodyLarge),
         );
       } else {
         return ListView.builder(
-          itemCount: MyApp.weatherList.length,
+          itemCount: Variables.weatherList.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child:
-                  getWeatherCard(context, MyApp.weatherList.elementAt(index)),
+              child: getWeatherCard(
+                  context, Variables.weatherList.elementAt(index)),
             );
           },
         );
@@ -79,7 +79,7 @@ class _WeatherListViewState extends State<WeatherListView> {
   }
 
   InkWell getWeatherCard(BuildContext context, WeatherData weatherData) {
-    CustomWidgets cw = CustomWidgets();
+    HelperWidgets hw = HelperWidgets();
     return InkWell(
       onTap: () => weatherCardExpanded(context, weatherData),
       onLongPress: () => weatherRemoveAlert(context, weatherData),
@@ -89,11 +89,11 @@ class _WeatherListViewState extends State<WeatherListView> {
           height: 179.0,
           width: double.infinity,
           decoration: BoxDecoration(
-              color: cw.getColor(weatherData),
+              color: hw.getColor(weatherData),
               borderRadius: BorderRadius.circular(16.0)),
           child: Padding(
             padding: const EdgeInsets.all(28.0),
-            child: cw.getWeatherCardInfo(context, weatherData),
+            child: hw.getWeatherCardInfo(context, weatherData),
           ),
         ),
       ),
@@ -102,7 +102,7 @@ class _WeatherListViewState extends State<WeatherListView> {
 
   Future<dynamic> weatherCardExpanded(
       BuildContext context, WeatherData weatherData) {
-    CustomWidgets cw = CustomWidgets();
+    HelperWidgets hw = HelperWidgets();
     return showDialog(
         context: context,
         builder: (context) {
@@ -110,7 +110,7 @@ class _WeatherListViewState extends State<WeatherListView> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0)),
             title: Text(
-              "${cw.fixCityName(weatherData)}, ${weatherData.sys.country}",
+              "${hw.fixCityName(weatherData)}, ${weatherData.sys.country}",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             children: [
@@ -130,7 +130,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.temp),
-                            MyApp.unitS == "metric"
+                            Variables.unitS == "metric"
                                 ? Text("${weatherData.main!.temp.floor()} °C")
                                 : Text("${weatherData.main!.temp.floor()} °F"),
                           ],
@@ -140,7 +140,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.feelsL),
-                            MyApp.unitS == "metric"
+                            Variables.unitS == "metric"
                                 ? Text("${weatherData.main!.feelsLike} °C")
                                 : Text("${weatherData.main!.feelsLike} °F"),
                           ],
@@ -158,7 +158,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.windS),
-                            MyApp.unitS == "metric"
+                            Variables.unitS == "metric"
                                 ? Text("${weatherData.wind!.speed} m/s")
                                 : Text("${weatherData.wind!.speed} m/h"),
                           ],
@@ -209,7 +209,7 @@ class _WeatherListViewState extends State<WeatherListView> {
   Future<dynamic> weatherRemoveAlert(
       BuildContext context, WeatherData weatherData) {
     WeatherSharedPrefs wsf = WeatherSharedPrefs();
-    CustomWidgets cw = CustomWidgets();
+    HelperWidgets hw = HelperWidgets();
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -217,7 +217,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                   borderRadius: BorderRadius.circular(12.0)),
               title: Text(AppLocalizations.of(context)!.removeConf),
               content: Text(
-                  "${AppLocalizations.of(context)!.removeDesc} ${cw.fixCityName(weatherData)}"),
+                  "${AppLocalizations.of(context)!.removeDesc} ${hw.fixCityName(weatherData)}"),
               actions: [
                 TextButton(
                     onPressed: () {
@@ -227,9 +227,9 @@ class _WeatherListViewState extends State<WeatherListView> {
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      MyApp.weatherList.remove(weatherData);
+                      Variables.weatherList.remove(weatherData);
                       wsf.updateCities(
-                          cw.weatherListCityNamesToList(MyApp.weatherList));
+                          hw.weatherListCityNamesToList(Variables.weatherList));
                       refresh();
                     },
                     child: Text(AppLocalizations.of(context)!.okB))

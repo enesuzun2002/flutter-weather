@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:weather/main.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
-import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/variables.dart';
+import 'package:weather/widgets/helper_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/widgets/dialog_widgets.dart';
 
 class Search extends StatefulWidget {
   Search({Key? key}) : super(key: key);
@@ -17,8 +18,9 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final TextEditingController _cityEditingController = TextEditingController();
 
-  CustomWidgets cw = CustomWidgets();
+  HelperWidgets hw = HelperWidgets();
   WeatherSharedPrefs wsf = WeatherSharedPrefs();
+  DialogWidgets dw = DialogWidgets();
 
   @override
   void initState() {
@@ -69,15 +71,15 @@ class _SearchState extends State<Search> {
                         widget.unitS = await wsf.getUnitS();
                         if (_formKey.currentState!.validate()) {
                           if (widget.apiKey == "") {
-                            apiKeyAlert(context);
+                            dw.apiKeyAlert(context);
                             return;
                           }
-                          weatherCod = await cw.getData(
+                          weatherCod = await hw.getData(
                               widget.city, widget.apiKey, widget.unitS);
                           if (weatherCod == 401) {
-                            invalidApiKeyAlert(context);
+                            dw.invalidApiKeyAlert(context);
                           } else if (weatherCod == "404") {
-                            invalidLocationAlert(context);
+                            dw.invalidLocationAlert(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               duration: const Duration(seconds: 1),
@@ -85,8 +87,8 @@ class _SearchState extends State<Search> {
                                   AppLocalizations.of(context)!.locationScss),
                             ));
                             _cityEditingController.clear();
-                            wsf.updateCities(cw
-                                .weatherListCityNamesToList(MyApp.weatherList));
+                            wsf.updateCities(hw.weatherListCityNamesToList(
+                                Variables.weatherList));
                           }
                         }
                       },
@@ -98,59 +100,5 @@ class _SearchState extends State<Search> {
         ),
       ),
     );
-  }
-
-  Future<dynamic> invalidApiKeyAlert(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-              title: Text(AppLocalizations.of(context)!.apiKeyInvalidD),
-              content: Text(AppLocalizations.of(context)!.apiKeyInvalidS),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(AppLocalizations.of(context)!.okB))
-              ],
-            ));
-  }
-
-  Future<dynamic> invalidLocationAlert(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-              title: Text(AppLocalizations.of(context)!.locationInvalidD),
-              content: Text(AppLocalizations.of(context)!.locationInvalidS),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(AppLocalizations.of(context)!.okB))
-              ],
-            ));
-  }
-
-  Future<dynamic> apiKeyAlert(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-              title: Text(AppLocalizations.of(context)!.apiKeyAlertT),
-              content: Text(AppLocalizations.of(context)!.apiKeyAlertD),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(AppLocalizations.of(context)!.okB))
-              ],
-            ));
   }
 }

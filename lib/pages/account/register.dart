@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/main.dart';
 import 'package:weather/pages/account/login.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
-import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/variables.dart';
+import 'package:weather/widgets/dialog_widgets.dart';
+import 'package:weather/widgets/helper_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Register extends StatefulWidget {
@@ -15,7 +16,8 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  CustomWidgets cw = CustomWidgets();
+  HelperWidgets hw = HelperWidgets();
+  DialogWidgets dw = DialogWidgets();
   final TextEditingController _passwordEditingController =
       TextEditingController();
   final TextEditingController _passwordCEditingController =
@@ -29,7 +31,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: cw.getAppBar(AppLocalizations.of(context)!.register),
+      appBar: hw.getAppBar(AppLocalizations.of(context)!.register),
       body: SingleChildScrollView(
         reverse: true,
         child: Padding(
@@ -37,7 +39,7 @@ class _RegisterState extends State<Register> {
           child: Column(
             children: [
               const SizedBox(height: 16.0),
-              cw.getAppImage(),
+              hw.getAppImage(),
               const SizedBox(
                 height: 16.0,
               ),
@@ -73,7 +75,7 @@ class _RegisterState extends State<Register> {
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocalizations.of(context)!.emailEmpty;
-                } else if (!cw.emailRegex.hasMatch(value)) {
+                } else if (!hw.emailRegex.hasMatch(value)) {
                   return AppLocalizations.of(context)!.emailInvalid;
                 }
                 return null;
@@ -135,11 +137,12 @@ class _RegisterState extends State<Register> {
       width: double.infinity,
       child: ElevatedButton(
           onPressed: () async {
-            MyApp.firstInstall = await wsf.getFirstInstall();
+            Variables.firstInstall = await wsf.getFirstInstall();
             if (_formKey.currentState!.validate()) {
-              if (MyApp.firstInstall) {
-                firstInstallAlert(context);
-                MyApp.firstInstall = false;
+              if (Variables.firstInstall) {
+                dw.firstInstallAlert(
+                    context, AppLocalizations.of(context)!.firstLaunchRegister);
+                Variables.firstInstall = false;
                 wsf.updateFirstInstall(false);
               }
               final provider =
@@ -149,23 +152,5 @@ class _RegisterState extends State<Register> {
           },
           child: Text(AppLocalizations.of(context)!.registerB)),
     );
-  }
-
-  Future<dynamic> firstInstallAlert(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-              title: Text(AppLocalizations.of(context)!.firstLaunchRegister),
-              content: Text(AppLocalizations.of(context)!.firstLaunchAlert),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(AppLocalizations.of(context)!.okB))
-              ],
-            ));
   }
 }

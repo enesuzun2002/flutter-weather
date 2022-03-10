@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/main.dart';
-import 'package:weather/pages/about.dart';
+import 'package:weather/pages/main_page.dart';
 import 'package:weather/pages/profile.dart';
 import 'package:weather/pages/settings.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/variables.dart';
 
 class NavDrawer extends StatefulWidget {
   const NavDrawer({Key? key}) : super(key: key);
@@ -28,10 +28,10 @@ class _NavDrawerState extends State<NavDrawer> {
               color: Theme.of(context).colorScheme.primary,
               child: InkWell(
                 onTap: () {
-                  if (MyApp.selectedIndex != -1) {
+                  if (Variables.selectedIndex != -1) {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const Profile()));
-                    MyApp.selectedIndex = -1;
+                    Variables.selectedIndex = -1;
                   }
                 },
                 child: Container(
@@ -68,10 +68,10 @@ class _NavDrawerState extends State<NavDrawer> {
                   ListTile(
                     leading: const Icon(Icons.home_outlined),
                     title: Text(AppLocalizations.of(context)!.home),
-                    selected: MyApp.selectedIndex == 0,
+                    selected: Variables.selectedIndex == 0,
                     onTap: () {
-                      if (MyApp.selectedIndex != 0) {
-                        MyApp.selectedIndex = 0;
+                      if (Variables.selectedIndex != 0) {
+                        Variables.selectedIndex = 0;
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => const MainPage()));
                         setState(() {});
@@ -81,10 +81,10 @@ class _NavDrawerState extends State<NavDrawer> {
                   ListTile(
                     leading: const Icon(Icons.settings_outlined),
                     title: Text(AppLocalizations.of(context)!.settings),
-                    selected: MyApp.selectedIndex == 1,
+                    selected: Variables.selectedIndex == 1,
                     onTap: () {
-                      if (MyApp.selectedIndex != 1) {
-                        MyApp.selectedIndex = 1;
+                      if (Variables.selectedIndex != 1) {
+                        Variables.selectedIndex = 1;
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => const Settings()));
                         setState(() {});

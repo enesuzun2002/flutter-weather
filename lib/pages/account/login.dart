@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/main.dart';
 import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
-import 'package:weather/widgets/custom_widgets.dart';
+import 'package:weather/variables.dart';
+import 'package:weather/widgets/dialog_widgets.dart';
+import 'package:weather/widgets/helper_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Login extends StatefulWidget {
@@ -21,7 +22,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _passwordEditingController =
       TextEditingController();
-  CustomWidgets cw = CustomWidgets();
+  HelperWidgets hw = HelperWidgets();
+  DialogWidgets dw = DialogWidgets();
   String email = "";
   String password = "";
   final _formKey = GlobalKey<FormState>();
@@ -30,7 +32,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: cw.getAppBar(AppLocalizations.of(context)!.logIn),
+      appBar: hw.getAppBar(AppLocalizations.of(context)!.logIn),
       body: SingleChildScrollView(
         reverse: true,
         child: Padding(
@@ -38,7 +40,7 @@ class _LoginState extends State<Login> {
           child: Column(
             children: [
               const SizedBox(height: 16.0),
-              cw.getAppImage(),
+              hw.getAppImage(),
               const SizedBox(
                 height: 16.0,
               ),
@@ -83,7 +85,7 @@ class _LoginState extends State<Login> {
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocalizations.of(context)!.emailEmpty;
-                } else if (!cw.emailRegex.hasMatch(value)) {
+                } else if (!hw.emailRegex.hasMatch(value)) {
                   return AppLocalizations.of(context)!.emailInvalid;
                 }
                 return null;
@@ -121,11 +123,12 @@ class _LoginState extends State<Login> {
       width: double.infinity,
       child: ElevatedButton(
           onPressed: () async {
-            MyApp.firstInstall = await wsf.getFirstInstall();
+            Variables.firstInstall = await wsf.getFirstInstall();
             if (_formKey.currentState!.validate()) {
-              if (MyApp.firstInstall) {
-                firstInstallAlert(context);
-                MyApp.firstInstall = false;
+              if (Variables.firstInstall) {
+                dw.firstInstallAlert(
+                    context, AppLocalizations.of(context)!.firstLaunchLogin);
+                Variables.firstInstall = false;
                 wsf.updateFirstInstall(false);
               }
               final provider =
@@ -143,10 +146,11 @@ class _LoginState extends State<Login> {
       width: double.infinity,
       child: ElevatedButton(
           onPressed: () async {
-            MyApp.firstInstall = await wsf.getFirstInstall();
-            if (MyApp.firstInstall) {
-              firstInstallAlert(context);
-              MyApp.firstInstall = false;
+            Variables.firstInstall = await wsf.getFirstInstall();
+            if (Variables.firstInstall) {
+              dw.firstInstallAlert(
+                  context, AppLocalizations.of(context)!.firstLaunchLogin);
+              Variables.firstInstall = false;
               wsf.updateFirstInstall(false);
             }
             final provider =
@@ -167,14 +171,14 @@ class _LoginState extends State<Login> {
               final provider =
                   Provider.of<FirebaseFuncsProvider>(context, listen: false);
               provider.firebaseForgotPass(email);
-              if (!MyApp.isShown) {
+              if (!Variables.isShown) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     duration: const Duration(seconds: 1),
                     content:
                         Text(AppLocalizations.of(context)!.passResetSnack)));
-                MyApp.isShown = true;
+                Variables.isShown = true;
                 Timer(const Duration(seconds: 30), () {
-                  MyApp.isShown = false;
+                  Variables.isShown = false;
                 });
               }
             }
@@ -189,10 +193,11 @@ class _LoginState extends State<Login> {
       width: double.infinity,
       child: ElevatedButton(
           onPressed: () async {
-            MyApp.firstInstall = await wsf.getFirstInstall();
-            if (MyApp.firstInstall) {
-              firstInstallAlert(context);
-              MyApp.firstInstall = false;
+            Variables.firstInstall = await wsf.getFirstInstall();
+            if (Variables.firstInstall) {
+              dw.firstInstallAlert(
+                  context, AppLocalizations.of(context)!.firstLaunchLogin);
+              Variables.firstInstall = false;
               wsf.updateFirstInstall(false);
             }
             final provider =
@@ -201,23 +206,5 @@ class _LoginState extends State<Login> {
           },
           child: Text(AppLocalizations.of(context)!.guestB)),
     );
-  }
-
-  Future<dynamic> firstInstallAlert(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-              title: Text(AppLocalizations.of(context)!.firstLaunchLogin),
-              content: Text(AppLocalizations.of(context)!.firstLaunchAlert),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(AppLocalizations.of(context)!.okB))
-              ],
-            ));
   }
 }
