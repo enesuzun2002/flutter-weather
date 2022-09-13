@@ -1,9 +1,9 @@
-import 'package:weather/weather/clouds.dart';
-import 'package:weather/weather/coord.dart';
-import 'package:weather/weather/main.dart';
-import 'package:weather/weather/sys.dart';
-import 'package:weather/weather/weather.dart';
-import 'package:weather/weather/wind.dart';
+import 'package:weather/model/clouds.dart';
+import 'package:weather/model/coord.dart';
+import 'package:weather/model/main.dart';
+import 'package:weather/model/sys.dart';
+import 'package:weather/model/weather.dart';
+import 'package:weather/model/wind.dart';
 
 class WeatherData {
   var coord;

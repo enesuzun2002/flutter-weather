@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:weather/weather/weather_data.dart';
+import 'package:weather/model/weather_data.dart';
 
 class WeatherApiClient {
   Future<WeatherData> getWeatherData(String location, apiKey, unitS) async {

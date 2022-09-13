@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather/services/weather_api_client.dart';
 import 'package:weather/variables.dart';
-import 'package:weather/weather/weather_data.dart';
+import 'package:weather/model/weather_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HelperWidgets {
