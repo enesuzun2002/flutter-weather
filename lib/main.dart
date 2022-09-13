@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/pages/main_page.dart';
-import 'package:weather/services/firebase_funcs_provider.dart';
 import 'package:weather/services/reload_weather_data.dart';
 import 'package:weather/theme/theme_constants.dart';
 import 'package:weather/theme/theme_manager.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => FirebaseFuncsProvider()),
     ChangeNotifierProvider(create: (_) => ThemeManager()),
     ChangeNotifierProvider(create: (_) => ReloadWeatherData()),
   ], child: const MyApp()));

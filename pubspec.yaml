@@ -40,8 +40,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.4
   shared_preferences: ^2.0.13
-  firebase_auth: ^3.3.9
-  google_sign_in: ^5.2.4
   provider: ^6.0.2
 
 dev_dependencies:
