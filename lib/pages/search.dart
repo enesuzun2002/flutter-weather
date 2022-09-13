@@ -6,16 +6,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weather/widgets/dialog_widgets.dart';
 
 class Search extends StatefulWidget {
-  Search({Key? key}) : super(key: key);
-  String city = "";
-  String apiKey = "";
-  String unitS = "";
+  const Search({Key? key}) : super(key: key);
 
   @override
-  _SearchState createState() => _SearchState();
+  SearchState createState() => SearchState();
 }
 
-class _SearchState extends State<Search> {
+class SearchState extends State<Search> {
   final TextEditingController _cityEditingController = TextEditingController();
 
   HelperWidgets hw = HelperWidgets();
@@ -29,8 +26,11 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     var weatherCod;
+    String apiKey = "";
+    String unitS = "";
+    String city = "";
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -39,7 +39,7 @@ class _SearchState extends State<Search> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Form(
-                key: _formKey,
+                key: formKey,
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.disabled,
                   decoration: InputDecoration(
@@ -54,7 +54,7 @@ class _SearchState extends State<Search> {
                     }
                     return null;
                   },
-                  onChanged: (value) => widget.city = value,
+                  onChanged: (value) => city = value,
                 ),
               ),
               const SizedBox(
@@ -67,15 +67,14 @@ class _SearchState extends State<Search> {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () async {
-                        widget.apiKey = await wsf.getApiKey();
-                        widget.unitS = await wsf.getUnitS();
-                        if (_formKey.currentState!.validate()) {
-                          if (widget.apiKey == "") {
+                        apiKey = await wsf.getApiKey();
+                        unitS = await wsf.getUnitS();
+                        if (formKey.currentState!.validate()) {
+                          if (apiKey == "") {
                             dw.apiKeyAlert(context);
                             return;
                           }
-                          weatherCod = await hw.getData(
-                              widget.city, widget.apiKey, widget.unitS);
+                          weatherCod = await hw.getData(city, apiKey, unitS);
                           if (weatherCod == 401) {
                             dw.invalidApiKeyAlert(context);
                           } else if (weatherCod == "404") {

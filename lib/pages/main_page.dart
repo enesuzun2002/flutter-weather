@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final pages = [
     const Home(),
-    Search(),
+    const Search(),
     const Settings(),
   ];
 

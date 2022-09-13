@@ -84,8 +84,8 @@ class DialogWidgets {
 
   // Settings Dialogs
   Padding apiKeyDialog(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final TextEditingController _apiKeyEditingController =
+    final formKey = GlobalKey<FormState>();
+    final TextEditingController apiKeyEditingController =
         TextEditingController();
     String apiKey = "";
     return Padding(
@@ -95,7 +95,7 @@ class DialogWidgets {
         children: [
           TextButton(
             onPressed: () async {
-              _apiKeyEditingController.text = await wsf.getApiKey();
+              apiKeyEditingController.text = await wsf.getApiKey();
               showDialog(
                 context: context,
                 builder: (context) {
@@ -107,7 +107,7 @@ class DialogWidgets {
                     title: Text(AppLocalizations.of(context)!.apiKeySH),
                     children: [
                       Form(
-                          key: _formKey,
+                          key: formKey,
                           child: Column(
                             children: [
                               Text(
@@ -125,7 +125,7 @@ class DialogWidgets {
                                 ),
                                 autocorrect: false,
                                 enableSuggestions: false,
-                                controller: _apiKeyEditingController,
+                                controller: apiKeyEditingController,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return AppLocalizations.of(context)!
@@ -142,7 +142,7 @@ class DialogWidgets {
                           )),
                       TextButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             wsf.updateApiKey(apiKey);
                             Navigator.pop(context);
                           }

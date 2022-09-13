@@ -10,9 +10,9 @@ class Wind {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['speed'] = this.speed;
-    data['deg'] = this.deg;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['speed'] = speed;
+    data['deg'] = deg;
     return data;
   }
 }

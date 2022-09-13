@@ -24,13 +24,13 @@ class Main {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['temp'] = this.temp;
-    data['feels_like'] = this.feelsLike;
-    data['temp_min'] = this.tempMin;
-    data['temp_max'] = this.tempMax;
-    data['pressure'] = this.pressure;
-    data['humidity'] = this.humidity;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['temp'] = temp;
+    data['feels_like'] = feelsLike;
+    data['temp_min'] = tempMin;
+    data['temp_max'] = tempMax;
+    data['pressure'] = pressure;
+    data['humidity'] = humidity;
     return data;
   }
 }
