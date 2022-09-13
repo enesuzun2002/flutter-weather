@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/pages/settings.dart';
 import 'package:weather/widgets/helper_widgets.dart';
+
+import '../services/reload_weather_data.dart';
+import '../variables.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -60,11 +64,62 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: hw.getAppBar(pageIndex == 0
-          ? AppLocalizations.of(context)!.weather
-          : pageIndex == 1
-              ? AppLocalizations.of(context)!.addNewCity
-              : AppLocalizations.of(context)!.settings),
+      appBar: AppBar(
+        centerTitle: true,
+        title: pageIndex == 0
+            ? Text(AppLocalizations.of(context)!.weather,
+                style: const TextStyle(
+                    fontSize: 20.0, fontWeight: FontWeight.bold))
+            : pageIndex == 1
+                ? Text(AppLocalizations.of(context)!.addNewCity,
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold))
+                : Text(AppLocalizations.of(context)!.settings,
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold)),
+        actions: [
+          if (pageIndex == 0)
+            IconButton(
+              onPressed: () {
+                if (!Variables.reload && !Variables.isRunning) {
+                  Variables.isRunning = true;
+                  Timer(const Duration(minutes: 3), () {
+                    Variables.reload = true;
+                    Variables.isRunning = false;
+                  });
+                }
+                if (Variables.reload) {
+                  refresh();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: const Duration(seconds: 1),
+                      content: Text(AppLocalizations.of(context)!.scfReload)));
+                  Variables.reload = false;
+                  // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
+                  // Also add a guard so this only works if reload is false.
+                  if (!Variables.reload && !Variables.isRunning) {
+                    Variables.isRunning = true;
+                    Timer(const Duration(minutes: 3), () {
+                      Variables.reload = true;
+                      Variables.isRunning = false;
+                    });
+                  }
+                } else {
+                  if (!Variables.isShown) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        duration: const Duration(seconds: 1),
+                        content:
+                            Text(AppLocalizations.of(context)!.reloadWait)));
+                    Variables.isShown = true;
+                    Timer(const Duration(seconds: 30), () {
+                      Variables.isShown = false;
+                    });
+                  }
+                }
+              },
+              icon: const Icon(Icons.replay_outlined),
+            ),
+        ],
+      ),
       body: pages[pageIndex],
       bottomNavigationBar: NavigationBar(
         height: 70.0,
@@ -87,5 +142,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+
+  Future<void> refresh() async {
+    final reloadProvider =
+        Provider.of<ReloadWeatherData>(context, listen: false);
+    await reloadProvider.weatherDataReload();
+    setState(() {});
   }
 }
