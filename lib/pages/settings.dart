@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weather/services/weather_shared_prefs.dart';
-import 'package:weather/widgets/dialog_widgets.dart';
-import 'package:weather/widgets/helper_widgets.dart';
+import 'package:weather/widgets/dialog/api.dart';
+import 'package:weather/widgets/dialog/theme.dart';
+import 'package:weather/widgets/dialog/unit.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -11,23 +11,19 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  HelperWidgets hw = HelperWidgets();
-  WeatherSharedPrefs wsf = WeatherSharedPrefs();
-  DialogWidgets dw = DialogWidgets();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [
+        children: const [
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
-            child: dw.themeSettingsDialog(context),
+            padding: EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
+            child: ThemeSettingsDialog(),
           ),
-          const SizedBox(height: 16.0),
-          dw.apiKeyDialog(context),
-          const SizedBox(height: 16.0),
-          dw.unitSettingDialog(context),
+          SizedBox(height: 16.0),
+          ApiKeySettingsDialog(),
+          SizedBox(height: 16.0),
+          UnitSettingsDialog(),
         ],
       ),
     );

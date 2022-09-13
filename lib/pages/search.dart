@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/variables.dart';
+import 'package:weather/widgets/dialog/alert.dart';
 import 'package:weather/widgets/helper_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:weather/widgets/dialog_widgets.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -17,7 +17,6 @@ class SearchState extends State<Search> {
 
   HelperWidgets hw = HelperWidgets();
   WeatherSharedPrefs wsf = WeatherSharedPrefs();
-  DialogWidgets dw = DialogWidgets();
 
   @override
   void initState() {
@@ -71,14 +70,32 @@ class SearchState extends State<Search> {
                         unitS = await wsf.getUnitS();
                         if (formKey.currentState!.validate()) {
                           if (apiKey == "") {
-                            dw.apiKeyAlert(context);
+                            showDialog(
+                                context: context,
+                                builder: (context) => MyAlertDialog(
+                                    title: AppLocalizations.of(context)!
+                                        .apiKeyAlertT,
+                                    content: AppLocalizations.of(context)!
+                                        .apiKeyAlertD));
                             return;
                           }
                           weatherCod = await hw.getData(city, apiKey, unitS);
                           if (weatherCod == 401) {
-                            dw.invalidApiKeyAlert(context);
+                            showDialog(
+                                context: context,
+                                builder: (context) => MyAlertDialog(
+                                    title: AppLocalizations.of(context)!
+                                        .apiKeyInvalidD,
+                                    content: AppLocalizations.of(context)!
+                                        .apiKeyInvalidS));
                           } else if (weatherCod == "404") {
-                            dw.invalidLocationAlert(context);
+                            showDialog(
+                                context: context,
+                                builder: (context) => MyAlertDialog(
+                                    title: AppLocalizations.of(context)!
+                                        .locationInvalidD,
+                                    content: AppLocalizations.of(context)!
+                                        .locationInvalidS));
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               duration: const Duration(seconds: 1),
