@@ -94,13 +94,16 @@ class HelperWidgets {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(
+          height: 10.0,
+        ),
         Text(
           " $name, ${weatherData.sys.country!}",
           style: const TextStyle(
               fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Image.network(
                 "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),

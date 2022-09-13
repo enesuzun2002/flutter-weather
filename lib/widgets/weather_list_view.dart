@@ -83,18 +83,14 @@ class _WeatherListViewState extends State<WeatherListView> {
     return InkWell(
       onTap: () => weatherCardExpanded(context, weatherData),
       onLongPress: () => weatherRemoveAlert(context, weatherData),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-        child: Container(
-          height: 179.0,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: hw.getColor(weatherData),
-              borderRadius: BorderRadius.circular(16.0)),
-          child: Padding(
-            padding: const EdgeInsets.all(28.0),
-            child: hw.getWeatherCardInfo(context, weatherData),
-          ),
+      child: Card(
+        color: hw.getColor(weatherData),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: hw.getWeatherCardInfo(context, weatherData),
         ),
       ),
     );
