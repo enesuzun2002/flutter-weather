@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: themeProvider.themeMode,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      debugShowCheckedModeBanner: false,
       title: 'Weather',
       home: const MainPage(),
     );

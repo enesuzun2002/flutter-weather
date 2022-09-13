@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
+import 'package:weather/pages/settings.dart';
 import 'package:weather/widgets/helper_widgets.dart';
-import 'package:weather/pages/nav_drawer.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final pages = [
     const Home(),
     Search(),
+    const Settings(),
   ];
 
   @override
@@ -61,8 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: hw.getAppBar(pageIndex == 0
           ? AppLocalizations.of(context)!.weather
-          : AppLocalizations.of(context)!.addNewCity),
-      drawer: const NavDrawer(),
+          : pageIndex == 1
+              ? AppLocalizations.of(context)!.addNewCity
+              : AppLocalizations.of(context)!.settings),
       body: pages[pageIndex],
       bottomNavigationBar: NavigationBar(
         height: 70.0,
@@ -74,13 +76,14 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         destinations: [
           NavigationDestination(
-              icon: pageIndex == 0
-                  ? const Icon(Icons.home)
-                  : const Icon(Icons.home_outlined),
+              icon: const Icon(Icons.home_outlined),
               label: AppLocalizations.of(context)!.home),
           NavigationDestination(
               icon: const Icon(Icons.search),
               label: AppLocalizations.of(context)!.search),
+          NavigationDestination(
+              icon: const Icon(Icons.settings_outlined),
+              label: AppLocalizations.of(context)!.settings),
         ],
       ),
     );

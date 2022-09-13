@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather/pages/nav_drawer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class About extends StatelessWidget {
@@ -8,7 +7,6 @@ class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavDrawer(),
       body: NestedScrollView(
         body: Column(
           children: const [

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:weather/services/weather_shared_prefs.dart';
 import 'package:weather/widgets/dialog_widgets.dart';
 import 'package:weather/widgets/helper_widgets.dart';
-import 'package:weather/pages/nav_drawer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -20,8 +18,6 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavDrawer(),
-      appBar: hw.getAppBar(AppLocalizations.of(context)!.settings),
       body: Column(
         children: [
           Padding(
