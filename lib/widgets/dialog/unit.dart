@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../services/weather_prefs_helper.dart';
+import '../../services/prefs_helper.dart';
 import '../helper_widgets.dart';
 
 class UnitSettingsDialog extends StatelessWidget {
@@ -28,7 +28,7 @@ class UnitSettingsDialog extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        decoration: PrefsHelper.keyUnitS == "metric"
+                        decoration: PrefsHelper.unitS == "metric"
                             ? hw.activeBox(context, true)
                             : hw.activeBox(context, false),
                         child: SimpleDialogOption(
@@ -53,7 +53,7 @@ class UnitSettingsDialog extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        decoration: PrefsHelper.keyUnitS == "imperial"
+                        decoration: PrefsHelper.unitS == "imperial"
                             ? hw.activeBox(context, true)
                             : hw.activeBox(context, false),
                         child: SimpleDialogOption(

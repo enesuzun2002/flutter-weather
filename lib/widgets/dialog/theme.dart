@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../theme/theme_manager.dart';
 import 'package:weather/widgets/helper_widgets.dart';
-import 'package:weather/services/weather_prefs_helper.dart';
+import 'package:weather/services/prefs_helper.dart';
 
 class ThemeSettingsDialog extends StatelessWidget {
   const ThemeSettingsDialog({Key? key}) : super(key: key);
@@ -80,6 +80,7 @@ class ThemeSettingsDialog extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   SimpleDialogOption(
                     onPressed: () {
+                      PrefsHelper.theme = "system";
                       PrefsHelper.updateValue(PrefsHelper.keyTheme, "system");
                       provider.toogleTheme(ThemeMode.system);
                     },

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/pages/settings.dart';
-import 'package:weather/services/weather_prefs_helper.dart';
+import 'package:weather/services/prefs_helper.dart';
 import 'package:weather/widgets/helper_widgets.dart';
 
 import '../services/reload_weather_data.dart';

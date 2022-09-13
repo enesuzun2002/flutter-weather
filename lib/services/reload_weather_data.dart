@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:weather/services/weather_prefs_helper.dart';
+import 'package:weather/services/prefs_helper.dart';
 
 class ReloadWeatherData extends ChangeNotifier {
   String apiKey = "";

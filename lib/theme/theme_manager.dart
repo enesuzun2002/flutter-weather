@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather/services/weather_prefs_helper.dart';
+import 'package:weather/services/prefs_helper.dart';
 
 class ThemeManager with ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;

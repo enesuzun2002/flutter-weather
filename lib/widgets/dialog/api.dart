@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../services/weather_prefs_helper.dart';
+import '../../services/prefs_helper.dart';
 
 class ApiKeySettingsDialog extends StatelessWidget {
   const ApiKeySettingsDialog({Key? key}) : super(key: key);
