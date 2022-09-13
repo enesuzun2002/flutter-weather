@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/reload_weather_data.dart';
-import 'package:weather/services/weather_shared_prefs.dart';
-import 'package:weather/variables.dart';
+import 'package:weather/services/weather_prefs_helper.dart';
 import 'package:weather/model/weather_data.dart';
 import 'package:weather/widgets/helper_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,64 +16,29 @@ class WeatherListView extends StatefulWidget {
 class _WeatherListViewState extends State<WeatherListView> {
   @override
   Widget build(BuildContext context) {
-    final reloadProvider =
-        Provider.of<ReloadWeatherData>(context, listen: true);
-    if (Variables.firstRun) {
-      return FutureBuilder(
-        future: reloadProvider.weatherDataReload(),
-        builder: (context, snapshot) {
-          Variables.firstRun = false;
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (Variables.weatherList.isEmpty) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(AppLocalizations.of(context)!.pAddCity),
-                  ],
-                ),
-              );
-            } else {
-              return ListView.separated(
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 16.0),
-                itemCount: Variables.weatherList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: getWeatherCard(
-                        context, Variables.weatherList.elementAt(index)),
-                  );
-                },
-              );
-            }
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+    if (PrefsHelper.weatherDataList.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(AppLocalizations.of(context)!.pAddCity),
+          ],
+        ),
       );
     } else {
-      if (Variables.weatherList.isEmpty) {
-        return Center(
-          child: Text(AppLocalizations.of(context)!.pAddCity,
-              style: Theme.of(context).textTheme.bodyLarge),
-        );
-      } else {
-        return ListView.builder(
-          itemCount: Variables.weatherList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: getWeatherCard(
-                  context, Variables.weatherList.elementAt(index)),
-            );
-          },
-        );
-      }
+      return ListView.separated(
+        separatorBuilder: (context, index) => const SizedBox(height: 16.0),
+        itemCount: PrefsHelper.weatherDataList.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: getWeatherCard(
+                context, PrefsHelper.weatherDataList.elementAt(index)),
+          );
+        },
+      );
     }
   }
 
@@ -126,7 +90,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.temp),
-                            Variables.unitS == "metric"
+                            PrefsHelper.unitS == "metric"
                                 ? Text("${weatherData.main!.temp.floor()} °C")
                                 : Text("${weatherData.main!.temp.floor()} °F"),
                           ],
@@ -136,7 +100,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.feelsL),
-                            Variables.unitS == "metric"
+                            PrefsHelper.unitS == "metric"
                                 ? Text("${weatherData.main!.feelsLike} °C")
                                 : Text("${weatherData.main!.feelsLike} °F"),
                           ],
@@ -154,7 +118,7 @@ class _WeatherListViewState extends State<WeatherListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppLocalizations.of(context)!.windS),
-                            Variables.unitS == "metric"
+                            PrefsHelper.unitS == "metric"
                                 ? Text("${weatherData.wind!.speed} m/s")
                                 : Text("${weatherData.wind!.speed} m/h"),
                           ],
@@ -204,7 +168,6 @@ class _WeatherListViewState extends State<WeatherListView> {
 
   Future<dynamic> weatherRemoveAlert(
       BuildContext context, WeatherData weatherData) {
-    WeatherSharedPrefs wsf = WeatherSharedPrefs();
     HelperWidgets hw = HelperWidgets();
     return showDialog(
         context: context,
@@ -223,9 +186,11 @@ class _WeatherListViewState extends State<WeatherListView> {
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      Variables.weatherList.remove(weatherData);
-                      wsf.updateCities(
-                          hw.weatherListCityNamesToList(Variables.weatherList));
+                      PrefsHelper.weatherDataList.remove(weatherData);
+                      PrefsHelper.updateValue(
+                          PrefsHelper.keyCities,
+                          hw.weatherListCityNamesToList(
+                              PrefsHelper.weatherDataList));
                       refresh();
                     },
                     child: Text(AppLocalizations.of(context)!.okB))
@@ -233,10 +198,10 @@ class _WeatherListViewState extends State<WeatherListView> {
             ));
   }
 
-  Future<void> refresh() async {
+  void refresh() {
     final reloadProvider =
         Provider.of<ReloadWeatherData>(context, listen: false);
-    await reloadProvider.weatherDataReload();
+    reloadProvider.weatherDataReload();
     setState(() {});
   }
 }

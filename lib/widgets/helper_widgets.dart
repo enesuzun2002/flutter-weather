@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weather/services/weather_api_client.dart';
-import 'package:weather/variables.dart';
 import 'package:weather/model/weather_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/services/weather_prefs_helper.dart';
 
 class HelperWidgets {
   Color getColor(WeatherData weatherData) {
@@ -33,29 +32,6 @@ class HelperWidgets {
           header,
           style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ));
-  }
-
-  Future<dynamic> getData(String city, String apiKey, String unitS) async {
-    WeatherData weatherData = WeatherData();
-    WeatherApiClient client = WeatherApiClient();
-    weatherData = await client.getWeatherData(city, apiKey, unitS);
-    // Cod 404 is returned for wrong location name.
-    // Cod 401 is returned for wrong api key.
-    if (weatherData.cod == "404") {
-      return weatherData.cod;
-    } else if (weatherData.cod == 401) {
-      return weatherData.cod;
-    } else {
-      for (var element in Variables.weatherList) {
-        if (element.name == weatherData.name) {
-          Variables.weatherList.remove(element);
-          Variables.weatherList.add(weatherData);
-          return weatherData.cod;
-        }
-      }
-      Variables.weatherList.add(weatherData);
-    }
-    return weatherData.cod;
   }
 
   String fixCityName(WeatherData weatherData) {
@@ -107,7 +83,7 @@ class HelperWidgets {
           children: [
             Image.network(
                 "http://openweathermap.org/img/wn/${weatherData.weather[0].icon!}@2x.png"),
-            Variables.unitS == "metric"
+            PrefsHelper.unitS == "metric"
                 ? Text(
                     "${weatherData.main!.temp.floor()} °C\n${getWeatherDescription(context, weatherData.weather[0].main)}",
                     style: const TextStyle(
@@ -130,7 +106,7 @@ class HelperWidgets {
 
   List<String> weatherListCityNamesToList(List<dynamic> weatherList) {
     List<String> cities = <String>[];
-    for (var element in Variables.weatherList) {
+    for (var element in PrefsHelper.weatherDataList) {
       cities.add(element.name);
     }
     cities.sort();

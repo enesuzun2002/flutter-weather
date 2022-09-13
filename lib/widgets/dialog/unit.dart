@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:weather/services/reload_weather_data.dart';
 
-import '../../services/weather_shared_prefs.dart';
-import '../../variables.dart';
+import '../../services/weather_prefs_helper.dart';
 import '../helper_widgets.dart';
 
 class UnitSettingsDialog extends StatelessWidget {
@@ -11,7 +9,6 @@ class UnitSettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WeatherSharedPrefs wsf = WeatherSharedPrefs();
     HelperWidgets hw = HelperWidgets();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -31,13 +28,14 @@ class UnitSettingsDialog extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        decoration: Variables.unitS == "metric"
+                        decoration: PrefsHelper.keyUnitS == "metric"
                             ? hw.activeBox(context, true)
                             : hw.activeBox(context, false),
                         child: SimpleDialogOption(
                           onPressed: () {
-                            wsf.updateUnitS("metric");
-                            Variables.unitS = "metric";
+                            PrefsHelper.updateValue(
+                                PrefsHelper.keyUnitS, "metric");
+                            PrefsHelper.unitS = "metric";
                           },
                           child: Row(
                             children: [
@@ -55,13 +53,14 @@ class UnitSettingsDialog extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        decoration: Variables.unitS == "imperial"
+                        decoration: PrefsHelper.keyUnitS == "imperial"
                             ? hw.activeBox(context, true)
                             : hw.activeBox(context, false),
                         child: SimpleDialogOption(
                           onPressed: () {
-                            wsf.updateUnitS("imperial");
-                            Variables.unitS = "imperial";
+                            PrefsHelper.updateValue(
+                                PrefsHelper.keyUnitS, "imperial");
+                            PrefsHelper.unitS = "imperial";
                           },
                           child: Column(
                             children: [
@@ -88,14 +87,13 @@ class UnitSettingsDialog extends StatelessWidget {
                 Text(AppLocalizations.of(context)!.unitSH,
                     style: Theme.of(context).textTheme.subtitle1),
                 const SizedBox(height: 5.0),
-                Variables.unitS == "metric"
+                PrefsHelper.unitS == "metric"
                     ? Text(AppLocalizations.of(context)!.metricD,
                         style: Theme.of(context).textTheme.bodySmall)
                     : Text(AppLocalizations.of(context)!.imperialD,
                         style: Theme.of(context).textTheme.bodySmall),
               ],
             ),
-            Container()
           ],
         ),
       ),

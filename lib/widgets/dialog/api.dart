@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../services/weather_shared_prefs.dart';
+import '../../services/weather_prefs_helper.dart';
 
 class ApiKeySettingsDialog extends StatelessWidget {
   const ApiKeySettingsDialog({Key? key}) : super(key: key);
@@ -12,8 +12,6 @@ class ApiKeySettingsDialog extends StatelessWidget {
     final TextEditingController apiKeyEditingController =
         TextEditingController();
     String apiKey = "";
-    // TODO: Get rid of this
-    WeatherSharedPrefs wsf = WeatherSharedPrefs();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -21,7 +19,7 @@ class ApiKeySettingsDialog extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () async {
-              apiKeyEditingController.text = await wsf.getApiKey();
+              apiKeyEditingController.text = PrefsHelper.apiKey;
               showDialog(
                 context: context,
                 builder: (context) {
@@ -69,7 +67,9 @@ class ApiKeySettingsDialog extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            wsf.updateApiKey(apiKey);
+                            PrefsHelper.apiKey = apiKey;
+                            PrefsHelper.updateValue(
+                                PrefsHelper.keyApiKey, apiKey);
                             Navigator.pop(context);
                           }
                         },

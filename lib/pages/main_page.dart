@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/pages/settings.dart';
+import 'package:weather/services/weather_prefs_helper.dart';
 import 'package:weather/widgets/helper_widgets.dart';
 
 import '../services/reload_weather_data.dart';
-import '../variables.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -81,37 +81,37 @@ class _MyHomePageState extends State<MyHomePage> {
           if (pageIndex == 0)
             IconButton(
               onPressed: () {
-                if (!Variables.reload && !Variables.isRunning) {
-                  Variables.isRunning = true;
+                if (!PrefsHelper.reload && !PrefsHelper.isRunning) {
+                  PrefsHelper.isRunning = true;
                   Timer(const Duration(minutes: 3), () {
-                    Variables.reload = true;
-                    Variables.isRunning = false;
+                    PrefsHelper.reload = true;
+                    PrefsHelper.isRunning = false;
                   });
                 }
-                if (Variables.reload) {
+                if (PrefsHelper.reload) {
                   refresh();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       duration: const Duration(seconds: 1),
                       content: Text(AppLocalizations.of(context)!.scfReload)));
-                  Variables.reload = false;
+                  PrefsHelper.reload = false;
                   // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
                   // Also add a guard so this only works if reload is false.
-                  if (!Variables.reload && !Variables.isRunning) {
-                    Variables.isRunning = true;
+                  if (!PrefsHelper.reload && !PrefsHelper.isRunning) {
+                    PrefsHelper.isRunning = true;
                     Timer(const Duration(minutes: 3), () {
-                      Variables.reload = true;
-                      Variables.isRunning = false;
+                      PrefsHelper.reload = true;
+                      PrefsHelper.isRunning = false;
                     });
                   }
                 } else {
-                  if (!Variables.isShown) {
+                  if (!PrefsHelper.isShown) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         duration: const Duration(seconds: 1),
                         content:
                             Text(AppLocalizations.of(context)!.reloadWait)));
-                    Variables.isShown = true;
+                    PrefsHelper.isShown = true;
                     Timer(const Duration(seconds: 30), () {
-                      Variables.isShown = false;
+                      PrefsHelper.isShown = false;
                     });
                   }
                 }
@@ -144,10 +144,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> refresh() async {
+  void refresh() {
     final reloadProvider =
         Provider.of<ReloadWeatherData>(context, listen: false);
-    await reloadProvider.weatherDataReload();
+    reloadProvider.weatherDataReload();
     setState(() {});
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../theme/theme_manager.dart';
 import 'package:weather/widgets/helper_widgets.dart';
-import 'package:weather/services/weather_shared_prefs.dart';
+import 'package:weather/services/weather_prefs_helper.dart';
 
 class ThemeSettingsDialog extends StatelessWidget {
   const ThemeSettingsDialog({Key? key}) : super(key: key);
@@ -14,7 +14,6 @@ class ThemeSettingsDialog extends StatelessWidget {
     final provider = Provider.of<ThemeManager>(context, listen: true);
     // TODO: Get rid of this
     HelperWidgets hw = HelperWidgets();
-    WeatherSharedPrefs wsf = WeatherSharedPrefs();
     return TextButton(
         onPressed: () {
           showDialog(
@@ -36,7 +35,9 @@ class ThemeSettingsDialog extends StatelessWidget {
                             : hw.activeBox(context, false),
                         child: SimpleDialogOption(
                           onPressed: () {
-                            wsf.updateTheme('dark');
+                            PrefsHelper.theme = "dark";
+                            PrefsHelper.updateValue(
+                                PrefsHelper.keyTheme, "dark");
                             provider.toogleTheme(ThemeMode.dark);
                           },
                           child: Row(
@@ -60,7 +61,9 @@ class ThemeSettingsDialog extends StatelessWidget {
                             : hw.activeBox(context, false),
                         child: SimpleDialogOption(
                           onPressed: () {
-                            wsf.updateTheme('light');
+                            PrefsHelper.theme = "light";
+                            PrefsHelper.updateValue(
+                                PrefsHelper.keyTheme, "light");
                             provider.toogleTheme(ThemeMode.light);
                           },
                           child: Column(
@@ -77,7 +80,7 @@ class ThemeSettingsDialog extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   SimpleDialogOption(
                     onPressed: () {
-                      wsf.updateTheme('system');
+                      PrefsHelper.updateValue(PrefsHelper.keyTheme, "system");
                       provider.toogleTheme(ThemeMode.system);
                     },
                     child: Container(

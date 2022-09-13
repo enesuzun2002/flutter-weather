@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather/services/weather_shared_prefs.dart';
-import 'package:weather/variables.dart';
+import 'package:weather/services/weather_prefs_helper.dart';
 import 'package:weather/widgets/dialog/alert.dart';
 import 'package:weather/widgets/helper_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,7 +15,6 @@ class SearchState extends State<Search> {
   final TextEditingController _cityEditingController = TextEditingController();
 
   HelperWidgets hw = HelperWidgets();
-  WeatherSharedPrefs wsf = WeatherSharedPrefs();
 
   @override
   void initState() {
@@ -27,8 +25,6 @@ class SearchState extends State<Search> {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     var weatherCod;
-    String apiKey = "";
-    String unitS = "";
     String city = "";
     return Scaffold(
       body: SafeArea(
@@ -66,10 +62,8 @@ class SearchState extends State<Search> {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () async {
-                        apiKey = await wsf.getApiKey();
-                        unitS = await wsf.getUnitS();
                         if (formKey.currentState!.validate()) {
-                          if (apiKey == "") {
+                          if (PrefsHelper.apiKey == "") {
                             showDialog(
                                 context: context,
                                 builder: (context) => MyAlertDialog(
@@ -79,7 +73,8 @@ class SearchState extends State<Search> {
                                         .apiKeyAlertD));
                             return;
                           }
-                          weatherCod = await hw.getData(city, apiKey, unitS);
+                          weatherCod = await PrefsHelper.getWeatherData(
+                              city, PrefsHelper.apiKey, PrefsHelper.unitS);
                           if (weatherCod == 401) {
                             showDialog(
                                 context: context,
@@ -103,8 +98,10 @@ class SearchState extends State<Search> {
                                   AppLocalizations.of(context)!.locationScss),
                             ));
                             _cityEditingController.clear();
-                            wsf.updateCities(hw.weatherListCityNamesToList(
-                                Variables.weatherList));
+                            PrefsHelper.updateValue(
+                                PrefsHelper.keyCities,
+                                hw.weatherListCityNamesToList(
+                                    PrefsHelper.weatherDataList));
                           }
                         }
                       },
