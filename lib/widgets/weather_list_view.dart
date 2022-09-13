@@ -21,7 +21,7 @@ class _WeatherListViewState extends State<WeatherListView> {
         Provider.of<ReloadWeatherData>(context, listen: true);
     if (Variables.firstRun) {
       return FutureBuilder(
-        future: reloadProvider.weatherDataReloadSharedPrefs(),
+        future: reloadProvider.weatherDataReload(),
         builder: (context, snapshot) {
           Variables.firstRun = false;
           if (snapshot.connectionState == ConnectionState.done) {
