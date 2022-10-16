@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:weather/controller/weather.dart';
 import 'package:weather/pages/main_page.dart';
 import 'package:weather/services/prefs_helper.dart';
 import 'package:weather/theme/theme_constants.dart';
@@ -20,6 +21,7 @@ void main() async {
     themeMode = ThemeMode.system;
   }
 
+  Get.put<WeatherController>(WeatherController());
   runApp(const MyApp());
 }
 

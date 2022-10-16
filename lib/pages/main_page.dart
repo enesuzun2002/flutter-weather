@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
-import 'package:weather/controller/reload_weather_data.dart';
+import 'package:weather/controller/weather.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/pages/settings.dart';
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
                 }
                 if (PrefsHelper.reload) {
-                  Get.find<ReloadWeatherDataController>().weatherDataReload();
+                  Get.find<WeatherController>().weatherDataReload();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       duration: const Duration(seconds: 1),
                       content: Text(AppLocalizations.of(context)!.scfReload)));

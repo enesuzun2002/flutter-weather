@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:weather/controller/weather.dart';
 import 'package:weather/services/prefs_helper.dart';
 import 'package:weather/widgets/dialog/alert.dart';
 import 'package:weather/widgets/helper_widgets.dart';
@@ -73,8 +75,9 @@ class SearchState extends State<Search> {
                                         .apiKeyAlertD));
                             return;
                           }
-                          weatherCod = await PrefsHelper.getWeatherData(
-                              city, PrefsHelper.apiKey, PrefsHelper.unitS);
+                          weatherCod = await Get.find<WeatherController>()
+                              .getWeatherData(
+                                  city, PrefsHelper.apiKey, PrefsHelper.unitS);
                           if (weatherCod == 401) {
                             showDialog(
                                 context: context,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weather/controller/reload_weather_data.dart';
+import 'package:weather/controller/weather.dart';
 import 'package:weather/services/prefs_helper.dart';
 import 'package:weather/model/weather_data.dart';
 import 'package:weather/widgets/helper_widgets.dart';
@@ -16,30 +16,35 @@ class WeatherListView extends StatefulWidget {
 class _WeatherListViewState extends State<WeatherListView> {
   @override
   Widget build(BuildContext context) {
-    if (PrefsHelper.weatherDataList.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(AppLocalizations.of(context)!.pAddCity),
-          ],
-        ),
-      );
-    } else {
-      return ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(height: 16.0),
-        itemCount: PrefsHelper.weatherDataList.length,
-        itemBuilder: (context, index) {
+    return GetBuilder(
+      id: WeatherController.weatherListViewId,
+      builder: (WeatherController controller) {
+        if (PrefsHelper.weatherDataList.isEmpty) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: getWeatherCard(
-                context, PrefsHelper.weatherDataList.elementAt(index)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(AppLocalizations.of(context)!.pAddCity),
+              ],
+            ),
           );
-        },
-      );
-    }
+        } else {
+          return ListView.separated(
+            separatorBuilder: (context, index) => const SizedBox(height: 16.0),
+            itemCount: PrefsHelper.weatherDataList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: getWeatherCard(
+                    context, PrefsHelper.weatherDataList.elementAt(index)),
+              );
+            },
+          );
+        }
+      },
+    );
   }
 
   InkWell getWeatherCard(BuildContext context, WeatherData weatherData) {
@@ -186,13 +191,8 @@ class _WeatherListViewState extends State<WeatherListView> {
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      PrefsHelper.weatherDataList.remove(weatherData);
-                      PrefsHelper.updateValue(
-                          PrefsHelper.keyCities,
-                          hw.weatherListCityNamesToList(
-                              PrefsHelper.weatherDataList));
-                      Get.find<ReloadWeatherDataController>()
-                          .weatherDataReload();
+
+                      Get.find<WeatherController>().removeCity(weatherData);
                     },
                     child: Text(AppLocalizations.of(context)!.okB))
               ],
