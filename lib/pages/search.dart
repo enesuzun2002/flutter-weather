@@ -95,11 +95,9 @@ class SearchState extends State<Search> {
                                     content: AppLocalizations.of(context)!
                                         .locationInvalidS));
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              duration: const Duration(seconds: 1),
-                              content: Text(
-                                  AppLocalizations.of(context)!.locationScss),
-                            ));
+                            Get.snackbar(AppLocalizations.of(context)!.search,
+                                AppLocalizations.of(context)!.locationScss);
+
                             _cityEditingController.clear();
                             PrefsHelper.updateValue(
                                 PrefsHelper.keyCities,

@@ -89,9 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
                 if (PrefsHelper.reload) {
                   Get.find<WeatherController>().weatherDataReload();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      duration: const Duration(seconds: 1),
-                      content: Text(AppLocalizations.of(context)!.scfReload)));
+                  Get.snackbar(AppLocalizations.of(context)!.weather,
+                      AppLocalizations.of(context)!.scfReload);
                   PrefsHelper.reload = false;
                   // Create a new timer after refreshing so that user don't have to wait 60 secs everytime they try to refresh.
                   // Also add a guard so this only works if reload is false.
@@ -104,10 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 } else {
                   if (!PrefsHelper.isShown) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        duration: const Duration(seconds: 1),
-                        content:
-                            Text(AppLocalizations.of(context)!.reloadWait)));
+                    Get.snackbar(AppLocalizations.of(context)!.weather,
+                        AppLocalizations.of(context)!.reloadWait);
                     PrefsHelper.isShown = true;
                     Timer(const Duration(seconds: 30), () {
                       PrefsHelper.isShown = false;

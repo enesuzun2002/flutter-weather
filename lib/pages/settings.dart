@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:weather/controller/weather.dart';
 import 'package:weather/widgets/dialog/api.dart';
 import 'package:weather/widgets/dialog/theme.dart';
 import 'package:weather/widgets/dialog/unit.dart';
