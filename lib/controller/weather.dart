@@ -7,7 +7,10 @@ import '../model/weather_data.dart';
 import '../widgets/helper_widgets.dart';
 
 class WeatherController extends GetxController {
+  // Widget IDs
   static String weatherListViewId = "weatherListViewId";
+  static String unitDialogId = "unitDialogId";
+
   WeatherController() {
     for (var element in PrefsHelper.cities) {
       getWeatherData(element, PrefsHelper.apiKey, PrefsHelper.unitS);
@@ -64,5 +67,11 @@ class WeatherController extends GetxController {
       PrefsHelper.weatherDataList.add(weatherData);
     }
     return weatherData.cod;
+  }
+
+  void updateUnit(String unit) {
+    PrefsHelper.updateValue(PrefsHelper.keyUnitS, unit);
+    PrefsHelper.unitS = unit;
+    update([unitDialogId]);
   }
 }
