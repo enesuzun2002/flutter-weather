@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../theme/theme_manager.dart';
+import 'package:get/get.dart';
+import 'package:weather/theme/theme_constants.dart';
 import 'package:weather/widgets/helper_widgets.dart';
 import 'package:weather/services/prefs_helper.dart';
 
-class ThemeSettingsDialog extends StatelessWidget {
+class ThemeSettingsDialog extends StatefulWidget {
   const ThemeSettingsDialog({Key? key}) : super(key: key);
 
   @override
+  State<ThemeSettingsDialog> createState() => _ThemeSettingsDialogState();
+}
+
+class _ThemeSettingsDialogState extends State<ThemeSettingsDialog> {
+  @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ThemeManager>(context, listen: true);
     // TODO: Get rid of this
     HelperWidgets hw = HelperWidgets();
     return TextButton(
@@ -30,7 +33,7 @@ class ThemeSettingsDialog extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        decoration: provider.themeMode == ThemeMode.dark
+                        decoration: themeMode == ThemeMode.dark
                             ? hw.activeBox(context, true)
                             : hw.activeBox(context, false),
                         child: SimpleDialogOption(
@@ -38,7 +41,9 @@ class ThemeSettingsDialog extends StatelessWidget {
                             PrefsHelper.theme = "dark";
                             PrefsHelper.updateValue(
                                 PrefsHelper.keyTheme, "dark");
-                            provider.toogleTheme(ThemeMode.dark);
+                            Get.changeThemeMode(ThemeMode.dark);
+                            themeMode = ThemeMode.dark;
+                            setState(() {});
                           },
                           child: Row(
                             children: [
@@ -56,7 +61,7 @@ class ThemeSettingsDialog extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        decoration: provider.themeMode == ThemeMode.light
+                        decoration: themeMode == ThemeMode.light
                             ? hw.activeBox(context, true)
                             : hw.activeBox(context, false),
                         child: SimpleDialogOption(
@@ -64,7 +69,9 @@ class ThemeSettingsDialog extends StatelessWidget {
                             PrefsHelper.theme = "light";
                             PrefsHelper.updateValue(
                                 PrefsHelper.keyTheme, "light");
-                            provider.toogleTheme(ThemeMode.light);
+                            Get.changeThemeMode(ThemeMode.light);
+                            themeMode = ThemeMode.light;
+                            setState(() {});
                           },
                           child: Column(
                             children: [
@@ -82,10 +89,12 @@ class ThemeSettingsDialog extends StatelessWidget {
                     onPressed: () {
                       PrefsHelper.theme = "system";
                       PrefsHelper.updateValue(PrefsHelper.keyTheme, "system");
-                      provider.toogleTheme(ThemeMode.system);
+                      Get.changeThemeMode(ThemeMode.system);
+                      themeMode = ThemeMode.system;
+                      setState(() {});
                     },
                     child: Container(
-                      decoration: provider.themeMode == ThemeMode.system
+                      decoration: themeMode == ThemeMode.system
                           ? hw.activeBox(context, true)
                           : hw.activeBox(context, false),
                       child: Column(
@@ -113,23 +122,19 @@ class ThemeSettingsDialog extends StatelessWidget {
                 Text(AppLocalizations.of(context)!.themeS,
                     style: Theme.of(context).textTheme.subtitle1),
                 const SizedBox(height: 5.0),
-                provider.themeMode == ThemeMode.system
+                themeMode == ThemeMode.system
                     ? Text(AppLocalizations.of(context)!.sysTheme,
                         style: Theme.of(context).textTheme.bodySmall)
-                    : provider.themeMode == ThemeMode.dark
+                    : themeMode == ThemeMode.dark
                         ? Text(AppLocalizations.of(context)!.darkTheme,
                             style: Theme.of(context).textTheme.bodySmall)
                         : Text(AppLocalizations.of(context)!.lightTheme,
                             style: Theme.of(context).textTheme.bodySmall)
               ],
             ),
-            provider.themeMode == ThemeMode.system
-                ? provider.getSystemThemeMode(context)
-                    ? const Icon(Icons.dark_mode_outlined)
-                    : const Icon(Icons.light_mode_outlined)
-                : provider.themeMode == ThemeMode.dark
-                    ? const Icon(Icons.dark_mode_outlined)
-                    : const Icon(Icons.light_mode_outlined),
+            Get.isDarkMode
+                ? const Icon(Icons.dark_mode_outlined)
+                : const Icon(Icons.light_mode_outlined)
           ],
         ));
   }

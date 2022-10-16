@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import 'package:weather/controller/reload_weather_data.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/search.dart';
 import 'package:weather/pages/settings.dart';
 import 'package:weather/services/prefs_helper.dart';
 import 'package:weather/widgets/helper_widgets.dart';
-
-import '../services/reload_weather_data.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -89,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
                 }
                 if (PrefsHelper.reload) {
-                  refresh();
+                  Get.find<ReloadWeatherDataController>().weatherDataReload();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       duration: const Duration(seconds: 1),
                       content: Text(AppLocalizations.of(context)!.scfReload)));
@@ -142,12 +141,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-  }
-
-  void refresh() {
-    final reloadProvider =
-        Provider.of<ReloadWeatherData>(context, listen: false);
-    reloadProvider.weatherDataReload();
-    setState(() {});
   }
 }

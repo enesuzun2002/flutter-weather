@@ -40,3 +40,5 @@ ThemeData darkTheme = ThemeData(
         .withOpacity(0.05),
   ),
 );
+
+ThemeMode themeMode = ThemeMode.system;

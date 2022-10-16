@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:weather/services/prefs_helper.dart';
 
-class ReloadWeatherData extends ChangeNotifier {
+class ReloadWeatherDataController extends GetxController {
   String apiKey = "";
 
   void weatherDataReload() {
@@ -11,6 +11,6 @@ class ReloadWeatherData extends ChangeNotifier {
             element, PrefsHelper.apiKey, PrefsHelper.unitS);
       }
     }
-    notifyListeners();
+    update();
   }
 }

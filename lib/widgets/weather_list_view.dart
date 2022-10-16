@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather/services/reload_weather_data.dart';
+import 'package:get/get.dart';
+import 'package:weather/controller/reload_weather_data.dart';
 import 'package:weather/services/prefs_helper.dart';
 import 'package:weather/model/weather_data.dart';
 import 'package:weather/widgets/helper_widgets.dart';
@@ -191,17 +191,11 @@ class _WeatherListViewState extends State<WeatherListView> {
                           PrefsHelper.keyCities,
                           hw.weatherListCityNamesToList(
                               PrefsHelper.weatherDataList));
-                      refresh();
+                      Get.find<ReloadWeatherDataController>()
+                          .weatherDataReload();
                     },
                     child: Text(AppLocalizations.of(context)!.okB))
               ],
             ));
-  }
-
-  void refresh() {
-    final reloadProvider =
-        Provider.of<ReloadWeatherData>(context, listen: false);
-    reloadProvider.weatherDataReload();
-    setState(() {});
   }
 }
